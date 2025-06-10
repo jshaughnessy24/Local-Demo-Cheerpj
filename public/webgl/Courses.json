@@ -1,0 +1,91 @@
+{ "courses": [{
+    "courseName": "CenterStage",
+    "shortName": "CS",
+    "logoName": "centerstage",
+    "description": "Teams will raise the curtain on the power of design, creativity, and precision to create all new experiences. ",
+    "coursePrefabs": [
+        "WhitePixel",
+        "SightCube"
+    ],
+    "botList": [
+        "CS Bot 4(CS4)",
+        "Bot 2(Bot2)"
+    ],
+    "keys": [
+        "ReleaseObject1:Release Pixel",
+        "ReleaseObject2:Unused",
+        "NextItemType:Next Pixel Color",
+        "MotorEight:Launch Plane(Motor8)",
+        "MotorSeven:RotateGrabber(Motor7)"
+    ]
+},
+{
+    "courseName": "IntoTheDeep",
+    "shortName": "ITD",
+    "logoName": "InTheDeep",
+    "description": "teams will use their STEM and collaboration skills to explore life beneath the surface of the ocean.",
+    "coursePrefabs": [
+        "Neutral Sample",
+        "Specimen"
+    ],
+    "botList": [
+        "Launcher(ITD-Launcher)",
+        "Grabber(ITD-Grabber)",
+        "Gobilda Starter Kit(ITD-Testkit)"
+    ],
+    "keys": [
+        "ReleaseObject1:Unused",
+        "ReleaseObject2:Unused",
+        "NextItemType:Unused",
+        "MotorSeven:Tilt Lift",
+        "MotorEight:Rear Lift / Launch",
+        "MotorSix:Grabber",
+        "MotorFive:Front Lift"
+    ]
+},
+{
+    "courseName": "MountainMayhem",
+    "shortName": "MM",
+    "logoName": "MountainMayhem",
+    "description": "The Mountain Mayhem field is where robots will clash in an epic snowball and rock fights!",
+    "coursePrefabs": [],
+    "botList": [
+        "Riptide(MM-Riptider)",
+        "Undertow(MM-Undertow)",
+        "Rogue(MM-Rogue)"
+    ],
+    "keys": [
+        "ReleaseObject1:Unused",
+        "ReleaseObject2:Unused",
+        "NextItemType:Unused",
+        "MotorEight:Unused",
+        "MotorSeven:Unused"
+    ]
+},
+{
+    "courseName": "PowerPlay",
+    "shortName": "PP",
+    "logoName": "PowerPlay-trans",
+    "description": "teams will reimagine the future of sustainable energy and power their ideas forward",
+    "coursePrefabs": [
+        "Cone"
+    ],
+    "botList": [
+        "Tiny Bot(TinySlider)",
+        "Swinging Arm(SwingingArm)"
+    ],
+    "keys": [
+        "ReleaseObject1:Release Cone",
+        "ReleaseObject2:Release Beacon",
+        "NextItemType:Unused"
+    ]
+},
+{
+    "courseName": "Sandbox",
+    "shortName": "SB",
+    "logoName": "vrs-SANDBOX",
+    "description": "An empty field to test programming",
+    "coursePrefabs": [],
+    "botList": [],
+    "keys": []
+}]}

@@ -1,0 +1,3 @@
+[submodule "modules/RSM-CodeExecutionModule"]
+	path = modules/RSM-CodeExecutionModule
+	url = https://github.com/Virtual-FTC/RSM-CodeExecutionModule.git

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHB5B5FKLY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-GHB5B5FKLY');
+  </script>
+  
+  <meta charset="utf-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <!-- https://www.youtube.com/watch?v=r9ZTWQtzk2Y -->
+  <!-- <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; script-src-elem 'self' 'unsafe-inline' https://developers.google.com/blockly/xml">
+  <meta http-equiv="X-Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; script-src-elem 'self' 'unsafe-inline' https://developers.google.com/blockly/xml"> -->
+  <title>VRS: Robot Arena</title>
+  <link rel="icon" type="image/x-icon" href="./logo.ico">
+  <link rel="stylesheet" href="./assets/css/arenapage.css"> 
+
+</head>
+
+<body>
+
+  <link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
+  <div id="LoadingScreen"></div>
+  <div style="display: flex;">
+    <a onclick="goBack()" id="backButton"><i class="fa fa-chevron-left"></i></a>
+  </div>
+
+
+  <div class="container" style="display: flex;">
+    <div style="width: 100%; background-color: #242424;">
+      <div id="fieldView" style="background-color: #000000;">
+        <iframe src="./webgl/index.html" id="fieldViewiframe" width="100%" height="100%" frameBorder="0"
+          scrolling="no" hidden></iframe>
+        <div class="center" id="loadingTextDiv">
+          <h1 id="loadingText">Loading Field</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    localStorage.setItem('playMode', "TeleOp");
+    var shouldBeUpdatingLoadingText = true;
+    var counterForLoadingText = 1;
+    document.getElementById('fieldView').style.height = window.innerHeight - 47.5 + "px";
+
+	window.addEventListener('resize', function () {
+	  document.getElementById('fieldView').style.height = window.innerHeight - 47.5 + "px";
+	});
+
+    setTimeout(function () {
+      shouldBeUpdatingLoadingText = false;
+      document.getElementById('fieldViewiframe').hidden = false;
+      document.getElementById('loadingText').remove();
+      document.getElementById('loadingTextDiv').remove();
+    }, 3000);
+
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+
+    const updateLoadingText = async () => {
+      while (shouldBeUpdatingLoadingText) {
+        if (counterForLoadingText == 1) {
+          document.getElementById('loadingText').innerHTML = "Loading Field."
+        } else if (counterForLoadingText == 2) {
+          document.getElementById('loadingText').innerHTML = "Loading Field.."
+        } else if (counterForLoadingText == 3) {
+          document.getElementById('loadingText').innerHTML = "Loading Field..."
+          counterForLoadingText = 0;
+        }
+        counterForLoadingText++;
+        await delay(500);
+      }
+    }
+    updateLoadingText();
+	
+	//Loading Screen Instructions
+	document.body.style.background = "#242424";
+	
+	setTimeout(() => {document.getElementById('LoadingScreen').style.animation = "none"}, 1000);
+	
+	function goBack () {
+		document.getElementById('LoadingScreen').style.animation = "Intro_Loading .5s ease reverse both";
+		
+		setTimeout(() => {
+      window.history.go(-1);
+		}, 500);
+	}
+  </script>
+</body>
+
+</html>

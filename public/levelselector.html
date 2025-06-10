@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Level Selector</title>
+    <link rel="stylesheet" href="./assets/css/arenapage.css">
+    <link rel="stylesheet" href="./assets/css/levelselect.css">
+    <link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WTPQBNZ7');</script>
+<!-- End Google Tag Manager -->
+    
+  </head>
+  <script src="./assets/js/jquery-3.7.1.min.js"></script>
+  <script src="./assets/js/programpageScript.js"></script>
+
+  <body style="margin-left:0px;margin-top:0px;margin-right:0px;">
+
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WTPQBNZ7"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div style="display: block;background: rgb(36, 36, 36);height:40px">
+      <div style="height: 50px; display: block; width: 50px; position: relative; left: 20px;  top: 10px;">
+        <a style="padding-top: 20px;position: relative;display: inline-block; bottom: 20px;" onclick="goBack()" id="backButton"><i class="fa fa-chevron-left"></i></a>
+      </div>
+      
+    </div>
+    <div id="centerLevelDiv">
+      
+      <h1>Level Selector</h1>
+      <div id="levelselector">
+
+
+      </div>
+    </div>
+  </body>
+
+  <script>
+    (function() {
+
+      $.getJSON( "./webgl/Courses.json", {})
+        .done(function( data ) {
+          var items = [];
+          console.log(data.courses);
+          $.each( data.courses, function( i, item ) {
+            if(item.category == "challenge"){return false;}
+            var nexPg = "nextPage(\"/course/"+item.courseName+"\")";
+            //var nexPg = "nextPage('level1.html')";
+            var entry = $( 
+            "<div class='levelBoxes' id='box1'><div class='description-boxes'>"
+            +"<div class='levelImageOverlay'>"
+            +"<img class='levelImage' src='./webgl/Logos/"+item.logoName+".png' />"
+            + "</div><div class='level-descriptors'>"
+            + "<span>"+item.description+"</span>"
+            + "</div><hr class='divider' />"
+            + "<div class='description-boxes'>"
+            +"<div class='level-name' id='levelName'>"+item.courseName+"</div>"
+            +"<button onclick="+nexPg+" class='button1'>"
+            +"Select Level</button>"
+            +"</div></div>" );
+            entry.appendTo("#levelselector");
+            //$( "<div>" ).attr( "id", item.media.m ).appendTo( "#images" );
+          });
+          
+        });
+    })();
+  </script>
+
+  <script>
+    function resetAnimations() {
+      document.getElementById("centerLevelDiv").style.animation = "none";
+    }
+
+    function nextPage(link) {
+      resetAnimations();
+      reset = true;
+
+      setTimeout(() => {
+        document.getElementById("centerLevelDiv").style.animation =
+          "Intro_BKGD 1s ease reverse both";
+      }, 5);
+
+      setTimeout(() => {
+        var bttnLink = document.createElement("a");
+        bttnLink.href = link;
+        bttnLink.click();
+      }, 1005);
+    }
+
+    function gotoHomeScreen(href) {
+      window.location.href = href;
+      
+    }
+
+    function goBack () {
+		
+		setTimeout(() => {
+      window.history.go(-1);
+		}, 500);
+	  }
+  </script>
+</html>

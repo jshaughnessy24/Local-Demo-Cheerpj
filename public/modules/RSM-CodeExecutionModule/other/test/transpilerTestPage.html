@@ -1,0 +1,151 @@
+<!-- THIS FILE IS OUTDATED -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototyping page</title>
+
+    <link rel="stylesheet" href="./codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="./codemirror/theme/darcula.css">
+    <link rel="stylesheet" href="./codemirror/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="toolbox_style.css">
+    <link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/programpage.css">
+    <style>
+
+        body {
+            background: linear-gradient(248.98deg, #646262 2.75%, #484848 114.64%);
+            overflow: auto;
+        }
+    </style>
+
+    <script src="./blocks/blockly/blockly_compressed.js"></script>
+    <script src="./blocks/blockly/blocks_compressed.js"></script>
+    <script src="./blocks/blockly/msg/js/en.js"></script>
+    <script src="./blocks/blockly/javascript_compressed.js"></script>
+    <script src="./codemirror/lib/codemirror.js"></script>
+
+    <script src="./codemirror/addon/edit/closebrackets.js"></script>
+    <script src="./codemirror/addon/comment/comment.js"></script>
+    <script src="./codemirror/addon/fold/foldcode.js"></script>
+    <script src="./codemirror/addon/fold/foldgutter.js"></script>
+    <script src="./codemirror/addon/fold/brace-fold.js"></script>
+    <script src="./codemirror/addon/fold/comment-fold.js"></script>
+    <script src="./codemirror/addon/fold/indent-fold.js"></script>
+
+    <script src="./codemirror/addon/hint/show-hint.js"></script>
+    <script src="./codemirror/mode/clike/clike.js"></script>
+    <script src="./codemirror/lib/util/formatting.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typescript/5.0.4/typescript.min.js"></script>
+    <script src="./assets/js/custom-converter.js"></script>
+    <script src="./assets/js/format4js.js"></script>
+
+
+    <script src="./assets/js/beautify.js"></script>
+    <script src="./assets/js/custom-converter.js"></script>
+
+    <script src="./assets/js/simplified-transpiler.js"></script>
+    <script src="./assets/js/worker-starter.js" type="module" defer></script>
+
+    <script>
+        var editorInput;
+        var editorOutput;
+
+        var sampleJavaCode = "public abstract class Animal {\n\tprotected int age = 0;\n\tprotected int legs = 4;\n\tabstract int getLegs();\n}\n\npublic class Dog extends Animal {\n\tpublic Dog() {\n\t\tthis.legs = 4;\n\t\tthis.age = 1;\n\t}\n\tpublic int getLegs() {\n\t\treturn legs;\n\t}\n}";
+        var sampleTSCode = "class BlankLinearOpMode extends LinearOpMode {\n\tpublic runOpMode(): void {\n\t\ttelemetry.addData(\"Status\", \"Initialized\");\n\t\ttelemetry.update();\n\t\twaitForStart();\n\t\twhile(opModeIsActive()) {\n\t\t\ttelemetry.addData(\"Status\", \"Running\");\n\t\t\ttelemetry.update();\n\t\t}\n\t}\n}";
+        
+        function onStartFunction() {
+            editorInput = CodeMirror(function (elt) {
+                document.getElementById('inputCodeBox').replaceChild(elt, document.getElementById('inputCodeBox').firstElementChild);
+            }, {
+                value: "// Enter code to transpile or run\n",
+                mode: "text/x-java",
+                lineNumbers: true,
+                theme: "darcula",
+                scrollbarStyle: "native",
+                autocorrect: true,
+                autoCloseBrackets: true,
+            });
+
+            editorOutput = CodeMirror(function (elt) {
+                document.getElementById('outputCodeBox').replaceChild(elt, document.getElementById('outputCodeBox').firstElementChild);
+            }, {
+                value: "",
+                mode: "text/x-java",
+                lineNumbers: true,
+                theme: "darcula",
+                scrollbarStyle: "native",
+                autocorrect: true,
+                autoCloseBrackets: true,
+            });
+        }
+        function loadJavaSample() {
+            editorInput.getDoc().setValue(sampleJavaCode);
+            editorOutput.getDoc().setValue("");
+        }
+        function loadTSSample() {
+            editorInput.getDoc().setValue(sampleTSCode);
+            editorOutput.getDoc().setValue("");
+        }
+        function loadOutput() {
+            editorInput.getDoc().setValue(editorOutput.getValue());
+            editorOutput.getDoc().setValue("");
+        }
+        async function runJS() {
+            editorOutput.getDoc().setValue("");
+            postToWorker("CODE", editorInput.getValue());
+        }
+        function restartJS() {
+            postToWorker("RESTART", "User hit restart btn");
+        }
+        
+    </script>
+</head>
+
+<body onload="onStartFunction()">
+    <h1>Transpiler Test Page</h1>
+
+    <button id="loadJavaSample" onclick="loadJavaSample()">Load Java Sample</button>
+    <button id="loadTSSample" onclick="loadTSSample()">Load TS Sample</button>
+    <button id="loadOutput" onclick="loadOutput()">Load Output</button>
+
+    <h2>Input</h2>
+    <div class="container" style="display: flex; height: 100%;">
+        <div id="leftScreen" style="display: flex; width: 100%;">
+            <div id="inputCodeBox" style="width: 100%; border:1px solid white;">
+                <h1 id="loadingOBJText"></h1>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <button id="toTS" onclick="toTS()">Transpile Java to TS</button>
+    <button id="toJS" onclick="toJS()">Transpile TS to JS</button>
+    <button id="legacyToJS" onclick="legacyJavaToJS()">Legacy Complete to JS</button>
+    <button id="runJS" onclick="runJS()">Execute JS in Worker</button>
+    <button id="restartJS" onclick="restartJS()">Terminate/Restart JS Worker</button>
+    <br>
+    <br>
+
+    <h2>Output</h2>
+    <div class="container" style="display: flex; height: 100%;">
+        <div id="leftScreen" style="display: flex; width: 100%;">
+            <div id="outputCodeBox" style="width: 100%; border:1px solid white;">
+                <h1 id="loadingOBJText"></h1>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+</body>
+
+</html>

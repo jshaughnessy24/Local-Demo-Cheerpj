@@ -1,0 +1,41 @@
+{
+  "name": "VRSIntoTheDeep",
+  "version": "2.7.28",
+  "version_date": "11/21/2024",
+  "description": "Downloadable Virtual Robot Simulator Platform",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-win": "electron-packager . --platform=win32 --arch=x64 --prune=true --out=release-builds --icon=logo.ico --overwrite",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --prune=true --arch=x64 --out=release-builds --icon=logo.icns",
+    "build-installer": "cd release-builds; node build.js",
+    "release": "genversion lib/version.js"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Virtual Robot Simulator",
+    "FTC",
+    "FIRST",
+    "Virtual FTC",
+    "VRS Platform"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^27.0.3",
+    "electron-installer-dmg": "^3.0.0",
+    "electron-packager": "^17.1.2",
+    "genversion": "^3.2.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "blockly": "^10.2.2",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-winstaller": "^5.0.0",
+    "form-data": "^4.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "keytar": "^7.9.0",
+    "net": "^1.0.2"
+  }
+}

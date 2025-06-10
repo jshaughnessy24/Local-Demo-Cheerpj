@@ -1,0 +1,139 @@
+<div id="leftScreen" style="display: flex; min-width: 10px; width: 50%; min-height: 100vh;">
+  <img onclick="toggleFullScreen('blocks')" src="https://firebasestorage.googleapis.com/v0/b/storage-asset-backup.appspot.com/o/fullScreen.png?alt=media&token=0608c6ea-607d-4524-8a91-e026483675d9" class="fullScreenIcon" id="fullScreenIcon_blocks">
+  
+  <div id="blocklyDiv" style="width: 100%; border:1px solid white;"></div>
+  <div id="onBotJavaDiv" style="width: 100%; border:1px solid white;">
+    <h1 id="loadingOBJText"></h1>
+  </div>
+</div>
+
+<div id="middleSlider" style="width: 10px; min-width: 10px; cursor: ew-resize;"></div>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <div id="rightScreen">
+      <div id="controlPanel" style="min-width:50%; min-height: 90vh; background-color: #242424; overflow: hidden;  ">
+        <div style="width:100%; height: 10px; background-color: #4B4B4B; margin-top: 15px; margin-bottom: 20px;"></div>
+        <div id="textSelection" style="white-space: nowrap; overflow: hidden; margin-bottom: 30px;" class="buttonText">
+          <div style="width: 20px; display: inline-block; "></div>
+          <!-- <div id="firstTab" style="display: inline-block;" onclick="switchTab(this, 0)">Telemetry</div> -->
+          <!-- <div class="divider"></div> -->
+          <div id="firstTab" style="display: inline-block;" onclick="switchTab(this, 1)" class="textNormal">Joystick</div>
+          <div class="divider"></div>
+          <div style="display: inline-block;" onclick="switchTab(this, 2)" class="textNormal">Novice Lessons</div>
+          <div class="divider"></div>
+          <div style="display: inline-block;" onclick="closeModal()" class="textNormal">Close</div>
+
+        </div>
+
+        <div id="tabOptions" style="min-height: 80%;">
+          <div style="height: 100%; overflow: scroll;">
+            <div style="width:100%; overflow:hidden; overflow-wrap: break-word; background-color: #323232; display: flex;">
+              <div id="telemetryColor" style="height: auto; width: 12.5px; margin-left: 10px;"></div>
+              <!-- <h2 id="telemetryText" style="font-size: 20px; padding-left: 12.5px; padding-right: 17.5px;">-Telemetry Output-</h2> -->
+            </div>
+          </div>
+          <div style="height: 100%; overflow: scroll;">
+            <div style="width:100%; overflow:hidden; overflow-wrap: break-word; background-color: #323232; display: flex; justify-content: space-between;">
+              <h2 style="font-size: 20px; padding-right: 17.5px;">
+                <u>Ultimate Goal Autonomous Actions:</u><br>
+                Park Robot on White Line in the middle<br><br>
+                Rings Scored in Tower Goal<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Low<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Mid<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;High<br><br>
+                Ring knocks over a center Powershot<br><br>
+                Wobble Goal Delivered to Correct Square<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;0 Rings in front of Robot<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;1 Ring in front of Robot<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;4 Rings in front of Robot<br>
+              </h2>
+              <h2 style="font-size: 20px; padding-right: 17.5px;">
+                <br>
+                -<br><br>
+                <br>
+                -<br>
+                -<br>
+                -<br><br>
+                -<br><br>
+                -<br>
+                <i class="fa fa-angle-double-right" style="position: relative; left: -3.5px;"></i><br>
+                <i class="fa fa-angle-double-right" style="position: relative; left: -3.5px;"></i><br>
+                <i class="fa fa-angle-double-right" style="position: relative; left: -3.5px;"></i>
+              </h2>
+              <h2 style="font-size: 20px; padding-right: 17.5px; text-align: right;">
+                <u>Points:</u><br>
+                5<br><br>
+                <br>
+                3<br>
+                6<br>
+                12<br><br>
+                15 per Powershot<br><br>
+                15<br>
+                Closest Square<br>
+                Center Square<br>
+                Furtherest Square<br>
+              </h2>
+            </div>
+          </div>
+          <div style="display: none; height: 100%;">
+            <div style="display: flex; justify-content: space-between; overflow: hidden; height: 11%">
+              <div style="width: 112px;"></div>
+              <div class="dropdown dropdown-dark" style="display: inline-block; background-color: #FFFFFF; height: 24.8px;">
+                <select id="lessonSelect" class="dropdown-select" onChange="loadLesson()" style="font-size:20px;">
+                  <option value=-1>-Coding Lessons-</option>
+                  <option value=0>Drive to White Line - 2 Motors</option> <!-- Timing			-->
+                  <option value=1>Drive to White Line - 4 Motors</option> <!-- Timing x2		-->
+                  <option value=2>Drive and Rotate 90 Degress</option> <!-- Precise Timing	-->
+                  <option value=3>Drive and Rotate in a Square</option> <!-- Loops			-->
+                  <option value=4>Drive and Strafe in a Square</option> <!-- Strafing		-->
+                  <option value=5>Wobble Goal - 1st Position</option> <!-- First Task		-->
+                  <option value=6>Wobble Goal - 2nd Position</option> <!-- Encoders		-->
+                  <option value=7>Wobble Goal - 3rd Position</option> <!-- Functions		-->
+                  <option value=8>Drive and Shoot into High Goal</option> <!-- New Motors		-->
+                  <option value=9>Drive and Shoot at Powershots</option> <!-- Complex task	-->
+                </select>
+              </div>
+              <a class="button1" style="margin-right: 10px; padding: 6px; padding-top: 1.5px; height: 15px;" target="_blank" href='https://docs.google.com/document/d/e/2PACX-1vRTTR2BbCs_GI29FQ4CKxG4AsR8XOP2YjeuBZKYq1Vii2Oq672av1E0XHm3mwB4e3Ai1ih-c41SA7j_/pub'>
+                Document <i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+            </div>
+            <div style="width:100%; overflow:hidden; background-color: #323232;">
+              <h2 id="lessonText" style="font-size: 20px; overflow: auto; height: 91%;">Select a Lesson to begin
+                Learning!</h2>
+            </div>
+            <div id="lessonButtons" style="display: none; justify-content: center; align-items: center; overflow: hidden; height: 14.5%;">
+              <!-- <button class="button1" onClick="runLessonCode()" style="font-size: 20px; white-space: nowrap; height: 29.2px;">Show the Task</button> -->
+              <p id="headingModal" class="buttonHeading">
+              </p>
+              <div style="width: 10%; display: inline-block;"></div>
+              <button class="button1" onClick="playVideo(1)" style="font-size: 20px; white-space: nowrap; height: 35px; width: 200px;">Video Solution</button>
+              <div style="width: 5%; display: inline-block;"></div>
+              <button class="button1" onClick="playVideo(2)" style="font-size:20px; white-space: nowrap; height: 35px; width: 200px;"> Code </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="multiSlider" style="width: 15px; height: 15px; position:absolute; transform: translate(-12.5px, -2.5px); cursor: move;"></div>
+    <div id="rightSlider" style="height: 10px; cursor: ns-resize;"></div>
+
+  </div>
+</div>
+
+<div id="fieldView">
+  <img onclick="toggleFullScreen('unity')" src="https://firebasestorage.googleapis.com/v0/b/storage-asset-backup.appspot.com/o/fullScreen.png?alt=media&token=0608c6ea-607d-4524-8a91-e026483675d9" class="fullScreenIcon" id="fullScreenIcon_unity">
+  <div id="textSelection" style=" position: absolute; z-index: 100; right: 50px; top: 35px;" class="buttonText">
+    <div style="display: inline-block; color: #fff;">Telemetry</div>
+    <button id="openModalBtn" class="button1">Other Options</button>
+    <div style="height: 100%; overflow: scroll; margin-top: 10px;" id="telemtryOutput">
+      <div style="width:100%; overflow:hidden; overflow-wrap: break-word; background-color: #323232; display: flex; border-radius: 20px;">
+        <div id="telemetryColor" style="height: auto; width: 12.5px;"></div>
+        <p id="telemetryText" style="font-size: 15px; padding:6px; max-width: 250px; min-width: 250px; word-wrap: break-word;">-Telemetry Output-</p>
+      </div>
+    </div>
+  </div>
+  <iframe scrolling="no" src="./webgl/index.html" id="fieldViewiframe" width="100%" height="100%" frameBorder="0" hidden allowTransparency="true" background="transparent"></iframe>
+  <div class="center" id="loadingTextDiv">
+    <h1 id="loadingText">Loading Field</h1>
+  </div>
+</div>

@@ -1,0 +1,628 @@
+		body {
+			background: linear-gradient(248.98deg, #b24505 2.75%, #8d1d17 114.64%);
+			margin-bottom: 10px;
+			overflow: hidden;
+		}
+
+		@media screen and (max-width: 1175px) {
+			.center-horizontal .desc {
+				font-size: 30px;
+			}
+		}
+
+		@media screen and (max-width: 750px) {
+			.center-horizontal .desc {
+				font-size: 25px;
+			}
+		}
+
+		@font-face {
+			font-family: 'Jura';
+			src: url('../../assets/fonts/Jura-Light.ttf');
+		}
+
+		input:focus,
+		textarea:focus,
+		div:focus,
+		select:focus {
+			outline: none;
+		}
+
+		#Overlay {
+			visibility: hidden;
+			opacity: 0;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			width: -moz-available;
+			/* WebKit-based browsers will ignore this. */
+			width: -webkit-fill-available;
+			/* Mozilla-based browsers will ignore this. */
+			width: fill-available;
+			height: 100%;
+			height: -moz-available;
+			/* WebKit-based browsers will ignore this. */
+			height: -webkit-fill-available;
+			/* Mozilla-based browsers will ignore this. */
+			height: fill-available;
+			margin: .75vw;
+			margin-top: .25vw;
+			margin-bottom: 1.75vw;
+			padding: 7.5px;
+			padding-top: 5px;
+			background-color: #242424;
+			border: .25vw solid #ff9800;
+			display: flex;
+			flex-direction: column;
+		}
+
+		@keyframes OverlayReveal {
+			from {
+				visibility: hidden;
+				opacity: 0;
+				top: 5vw;
+			}
+
+			to {
+				visibility: visible;
+				opacity: 1;
+				top: .75vw;
+			}
+		}
+
+		@keyframes OverlayHide {
+			from {
+				visibility: visible;
+				opacity: 1;
+				top: .75vw;
+			}
+
+			to {
+				visibility: hidden;
+				opacity: 0;
+				top: 5vw;
+			}
+		}
+
+		#BackButton {
+			width: 20px;
+			height: 20px;
+			margin-bottom: 5px;
+			padding: 2.5px;
+			padding-left: 3.5px;
+			padding-right: 1.5px;
+			font-size: 20px;
+			color: white;
+			border-radius: 100px;
+			cursor: pointer;
+			transition-duration: 0.4s;
+		}
+
+		#BackButton:hover {
+			background-color: white;
+			color: black;
+		}
+
+		#BackButton:focus {
+			background-color: white;
+			color: black;
+		}
+
+		#LoadingScreen {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			height: 100vh;
+			width: 100vw;
+			background: linear-gradient(248.98deg, #b24505 2.75%, #8d1d17 114.64%);
+			z-index: 10;
+		}
+
+		#OrangeBKGD {
+			position: absolute;
+			width: 80vw;
+			height: 125vh;
+			left: -14vw;
+			top: -18vh;
+			z-index: -3;
+
+			animation: Intro_BKGD 1s ease .25s forwards;
+		}
+
+		@keyframes Intro_BKGD {
+			0% {
+				z-index: -1;
+				width: 145vw;
+				height: 150vh;
+			}
+
+			99% {
+				z-index: -1;
+				width: 80vw;
+				height: 125vh;
+			}
+
+			100% {
+				z-index: -3;
+			}
+		}
+
+		#Circle1 {
+			position: absolute;
+			width: 17vw;
+			height: 17vw;
+			left: -3vw;
+			top: 17.5vh;
+
+			/* White Linear */
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+
+			border-radius: 9vw;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			animation: Intro_Circles 1.5s ease forwards;
+		}
+
+		#InnerCircle1 {
+			width: 68%;
+			height: 68%;
+
+			/* White Linear */
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+
+			border-radius: 6vw;
+		}
+
+		#Circle2 {
+			position: absolute;
+			width: 17vw;
+			height: 17vw;
+			left: 29.5vw;
+			top: 74.5vh;
+
+			background-image: url("../../assets/DottedCircle.png");
+			background-size: 100%;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			animation: Intro_Circles 1.5s ease .25s forwards;
+		}
+
+		#InnerCircle2 {
+			width: 79%;
+			height: 79%;
+
+			/* White Linear */
+			background: rgba(255, 255, 255, 0.1);
+
+			border-radius: 6.5vw;
+		}
+
+		#FieldLogo {
+			position: absolute;
+			width: 14vw;
+			height: 14vw;
+			left: 28vw;
+			top: 4.5vh;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			animation: Intro_Circles 1.5s ease .25s forwards;
+		}
+
+		@keyframes Intro_Circles {
+			0% {
+				margin: 4.25vw;
+				width: 8.5vw;
+				height: 8.5vw;
+				opacity: 0;
+			}
+
+			33% {
+				margin: 4.25vw;
+				width: 8.5vw;
+				height: 8.5vw;
+				opacity: 0;
+			}
+
+			100% {
+				margin: 0vw;
+				width: 17vw;
+				height: 17vw;
+				opacity: 1;
+			}
+		}
+
+		#Icons {
+			top: 2vh;
+
+			animation: Intro_SlideFromTop 1s ease .25s forwards;
+		}
+
+		@keyframes Intro_SlideFromTop {
+			from {
+				top: -10vh;
+			}
+
+			to {
+				top: 2vh;
+			}
+		}
+
+		#FIRSTIllinois {
+			position: absolute;
+			height: 8vw;
+			left: 2.5vw;
+			top: inherit;
+		}
+
+		#FTCLogo {
+			position: absolute;
+			height: 8vw;
+			left: 15.5vw;
+			top: inherit;
+		}
+
+		#MainText {
+			left: 1.5vw;
+
+			animation: Intro_SlideFromLeft 1s ease .25s forwards;
+		}
+
+		@keyframes Intro_SlideFromLeft {
+			from {
+				left: -35vw;
+			}
+
+			to {
+				left: 1.5vw;
+			}
+		}
+
+		#TitleText {
+			position: absolute;
+			width: 37.5vw;
+			left: inherit;
+			top: 30vh;
+
+			font-family: Jura;
+			font-style: normal;
+			font-weight: 600;
+			font-size: 3vw;
+			line-height: 8vh;
+			display: flex;
+			align-items: center;
+			letter-spacing: .25vw;
+
+			/* White */
+			color: #FFFFFF;
+
+			/* Inside auto layout */
+			flex: none;
+			order: 0;
+			flex-grow: 0;
+			margin: 4vh 0px;
+		}
+
+		#RobotConfig {
+			/* Auto layout */
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+
+			position: absolute;
+			width: 17vw;
+			height: 6.5vh;
+			left: inherit;
+			top: 60vh;
+
+			/* Linear Style 1 */
+			background: linear-gradient(267.66deg, #FF7300 -14.49%, #FF2702 112.73%);
+			border-radius: 100px;
+
+			border: none;
+			cursor: pointer;
+		}
+
+		#RobotConfig:hover, #QuickstartButton:hover {
+			transition-duration: 0.4s;
+			border: .15vw white solid;
+			text-shadow: .2vw .2vw .25vw #000000;
+		}
+
+		#RobotConfig:focus, #QuickstartButton:focus {
+			transition-duration: 0.4s;
+			border: .15vw white solid;
+			text-shadow: .2vw .2vw .25vw #000000;
+			outline: none;
+			box-shadow: none;
+		}
+
+		#QuickstartButton {
+			/* Auto layout */
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+
+			position: absolute;
+			width: 17vw;
+			height: 6.5vh;
+			left: inherit;
+			top: 67.5vh;
+
+			/* Linear Style 1 */
+			background: linear-gradient(267.66deg, #FF7300 -14.49%, #FF2702 112.73%);
+			border-radius: 100px;
+
+			border: none;
+			cursor: pointer;
+		}
+
+		#ConfigText, #QuickstartText {
+			/* Button text */
+
+			font-family: Jura;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 1.33vw;
+			line-height: 28px;
+			display: flex;
+			justify-content: center;
+
+			/* White */
+			color: #FFFFFF;
+
+
+			/* Inside auto layout */
+			flex: none;
+			order: 0;
+			flex-grow: 0;
+			margin: 0px 10px;
+		}
+
+		#VersionText {
+			position: absolute;
+			height: 10vh;
+			width: 17vw;
+			left: inherit;
+			top: 75vh;
+
+			/* Nav Buttons */
+			font-family: Jura;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 1vw;
+			line-height: 2vh;
+			text-align: center;
+			/* identical to box height */
+
+			/* White */
+			color: #FFFFFF;
+		}
+
+		#NavItems {
+			position: absolute;
+			top: 0px;
+			right: 9vw;
+			display: flex;
+			z-index: -2;
+		}
+
+		.NavButtons {
+			border-radius: 1vh;
+			color: #242424;
+			text-align: center;
+			font-family: Jura;
+			text-decoration: none;
+			font-size: 1vw;
+			font-weight: 600;
+			margin: 2vh .25vw;
+			margin-bottom: 0px;
+			cursor: pointer;
+			padding: .66vh .75vw;
+			color: rgb(255, 255, 255);
+			background-color: transparent;
+			border: .1vw solid rgb(255, 255, 255);
+			flex: 0 0 auto;
+		}
+
+		.NavText {
+			text-align: center;
+			font-family: Jura;
+			text-decoration: none;
+			font-size: 1vw;
+			font-weight: 600;
+			margin: 2vh .25vw;
+			margin-bottom: 0px;
+			cursor: pointer;
+			padding: .66vh .75vw;
+			color: rgb(255, 255, 255);
+			background-color: transparent;
+			flex: 0 0 auto;
+		}
+
+		.NavButtons:hover {
+			transition-duration: 0.4s;
+			background-color: white;
+			color: #242424;
+		}
+
+		.NavButtons:focus {
+			transition-duration: 0.4s;
+			background-color: white;
+			color: #242424;
+			outline: none;
+			box-shadow: none;
+		}
+
+		#VRSLogo {
+			position: absolute;
+			top: 2vh;
+			right: .75vw;
+			width: 8vw;
+			z-index: -2;
+		}
+
+		#Selections {
+			position: absolute;
+			right: 1vw;
+			top: 22.5vh;
+			display: inline-flex;
+			gap: 0.5rem;
+		}
+
+		.SelectionPanel {
+			width: 17vw;
+			height: 57.5vh;
+			border-radius: 1vw;
+			color: #242424;
+			text-align: center;
+			font-family: Jura;
+			font-weight: bold;
+			text-decoration: none;
+			font-size: 2vw;
+			margin: 1vh 0vw;
+			margin-bottom: 0px;
+			cursor: pointer;
+			color: rgb(255, 255, 255);
+			text-shadow: .2vw .2vw .5vw #000000;
+			border: .15vw solid rgb(255, 255, 255);
+			padding: 0px;
+
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+
+		.SelectionPanel:hover {
+			transition-duration: 0.4s;
+			color: #00fd72;
+		}
+
+		.SelectionPanel:focus {
+			transition-duration: 0.4s;
+			color: #00fd72;
+			outline: none;
+			box-shadow: none;
+		}
+
+		#localButton {
+			background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../../assets/images/local.png") no-repeat center;
+			background-size: 66vh;
+
+			animation: Intro_Selections 2s ease forwards;
+		}
+
+		#multiplayerButton {
+			background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../../assets/images/multiplayer.png") no-repeat center;
+			background-size: 66vh;
+
+			animation: Intro_Selections 2s ease .25s forwards;
+		}
+
+		#levelButton {
+			background: linear-gradient(
+				0deg,
+				rgba(0, 0, 0, 0.4),
+				rgba(0, 0, 0, 0.4)
+			  ),
+			  url("../../assets/images/levelselect.png") no-repeat center;
+			background-size: 66vh;
+	
+			animation: Intro_Selections 2s ease 0.25s forwards;
+		  }
+
+		@keyframes Intro_Selections {
+			0% {
+				position: relative;
+				top: 15vh;
+				opacity: 0;
+			}
+
+			50% {
+				position: relative;
+				top: 15vh;
+				opacity: 0;
+			}
+
+			100% {
+				position: relative;
+				top: 0px;
+				opacity: 1;
+			}
+		}
+
+		.SelectionTitle {
+			padding-top: 6vh;
+			padding-bottom: 6vh;
+		}
+
+		.SelectionIcon {
+			flex: 0 1 9vw;
+			min-height: 0;
+			margin-bottom: 3vh;
+		}
+
+		.SelectionHint {
+			width: 10vw;
+			padding: 1.5vh .1vw;
+			margin-bottom: 1vh;
+			color: black;
+			background-color: white;
+			border-radius: 100px;
+			text-align: center;
+			font-family: Jura;
+			text-decoration: none;
+			font-size: 1.25vw;
+			font-weight: normal;
+			text-shadow: none;
+		}
+
+		.SelectionDesc {
+			height: 0px;
+			background-color: white;
+			font-size: 1.25vw;
+			color: black;
+			text-shadow: none;
+			padding-left: .5vw;
+			padding-right: .5vw;
+		}
+
+		@keyframes DescReveal {
+			from {
+				height: 0vw;
+				padding-top: 0vw;
+				margin-top: 0vw;
+			}
+
+			to {
+				height: 6.5vw;
+				padding-top: .75vw;
+				margin-top: 2vh;
+			}
+		}
+
+		@keyframes DescHide {
+			from {
+				height: 6.5vw;
+				padding-top: .75vw;
+				margin-top: 2vh;
+			}
+
+			to {
+				height: 0vw;
+				padding-top: 0vw;
+				margin-top: 0vw;
+			}
+		}

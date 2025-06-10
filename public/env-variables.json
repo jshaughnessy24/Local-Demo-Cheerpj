@@ -1,0 +1,6 @@
+{
+    "auth0Domain": "dev-87hhzu5bd740zqrm.us.auth0.com",
+    "clientId": "POPGG88sRdp5gXdvfgQEIdwGgOjJMO6d",
+    "apiIdentifier": "<API_IDENTIFIER>",
+    "backendurl": "http://api.vrobotsim.online/leader"
+  }
