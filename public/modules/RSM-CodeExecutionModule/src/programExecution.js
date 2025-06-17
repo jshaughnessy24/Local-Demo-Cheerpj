@@ -536,8 +536,31 @@ async function runProgram(code) { 	// the parameter code is not used anymore. we
 		}
 	}
 
-	async function Java_JSRobotDemo_encoderVal(lib, int) {
-		return motor.getProperty(int, "CurrentPosition");
+	
+
+	async function Java_DcMotor_setPower(lib, self, pow) {
+		motor.setProperty([self.index], 'Power', [pow]);
+
+	}
+
+	async function Java_DcMotor_setDirection(lib, self, dir) {
+		if (dir.equals(self.Direction.FORWARD)) {
+			motor.setProperty([self.index], 'Direction', ["FORWARD"]);
+		}
+
+		else {
+			motor.setProperty([self.index], 'Direction', ["REVERSE"]);
+		}
+		
+
+	}
+
+	async function Java_DcMotor_getCurrentPosition(lib, self) {
+		return motor.getProperty([self.index], "CurrentPosition");
+	}
+
+	async function Java_JSRobotDemo_waitForStart(lib, self) {
+		await linearOpMode.waitForStart();
 	}
 
 	// if cheerpj is not initialized, initializes it
@@ -546,8 +569,11 @@ async function runProgram(code) { 	// the parameter code is not used anymore. we
 			version: 17,
 			natives: {
 				Java_JSRobotDemo_runJSCode,
-				Java_JSRobotDemo_encoderVal,
-				//   Java_Example_nativeSetApplication,
+				Java_DcMotor_getCurrentPosition,
+				Java_DcMotor_setPower,
+				Java_DcMotor_setDirection,
+				Java_JSRobotDemo_waitForStart
+		//   Java_Example_nativeSetApplication,
 			},
 		});
 	}

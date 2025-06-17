@@ -46,7 +46,7 @@ Blockly.Blocks['linearOpMode_waitForStart'] = {
   }
 };
 
-Blockly.JavaScript['linearOpMode_waitForStart'] = function(block) {
+Blockly.JavaScript['linearOpMode_'] = function(block) {
   return 'await ' + linearOpModeIdentifierForJavaScript + '.waitForStart();\n';
 };
 

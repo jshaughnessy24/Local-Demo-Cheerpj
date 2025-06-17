@@ -1,60 +1,57 @@
 import java.util.concurrent.TimeUnit;
 
-public class JSRobotDemo {
+public class JSRobotDemo extends OpModeBase{
     // Native method to run javaScript code
+    private DcMotor frontLeft;
+    private DcMotor frontRight;
+
+    private DcMotor backLeft;
+    private DcMotor backRight;
+
     public static native void runJSCode(String s);
-    public static native double encoderVal(int id);
-
-
-    public JSRobotDemo() {
-
-    }
-
-    public static void main(String[] args) {
-
-       // System.out.println("Hello");
-          runJSCode("""
-    
-        async function runOpMode() {
-motor.setProperty([1], 'Direction', ['REVERSE']);
-motor.setProperty([3], 'Direction', ['REVERSE']);
-await linearOpMode.waitForStart();
-
-}
-await runOpMode();
-
-             
-        """);
-
-        runJSCode("""
-        if (linearOpMode.opModeIsActive()) {
-motor.setProperty([0, 1], 'Power', [1, 1]);
-telemetry.addData('Driving', 'Forward');
-telemetry.update();
 
 
 
-}
-
+    public void runOpMode() {
+        frontLeft  = hardwareMap.get(DcMotor.class, "frontLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         
-        
-        """);
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
 
-while(true) {
-    double val = encoderVal(0);
-    if (val > 10000) {
-        break;
+
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
+
+       waitForStart();
+
+
+
+        frontLeft.setPower(1);
+        frontRight.setPower(1);
+        backLeft.setPower(1);
+        backRight.setPower(1);
+
+
+        while(frontLeft.getCurrentPosition() < 10000) {  
+        }
+
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+
+
+
+
+
     }
 
-    
-    
-}
 
+   
+   
 
-runJSCode("""
-motor.setProperty([0, 1], 'Power', [0, 0]);
-console.log('ended at 10000 encoder rotations');
-     
-        """);
-    }
 }
