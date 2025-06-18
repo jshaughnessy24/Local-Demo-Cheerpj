@@ -516,6 +516,10 @@ var programExecController = new AbortController();
 
 async function runProgram(code) { 	// the parameter code is not used anymore. we have a separate jar file for now
 	// implements the native function runJSCode
+	async function Java_HardwareMap_runJSCode(lib,  str) {
+		Java_JSRobotDemo_runJSCode(lib, str)
+	}
+
 	async function Java_JSRobotDemo_runJSCode(lib, str) {
 		let AsyncFunctionCtor2 = Object.getPrototypeOf(async function () { }).constructor;
 		let program2;
@@ -557,6 +561,7 @@ async function runProgram(code) { 	// the parameter code is not used anymore. we
 
 	async function Java_DcMotor_getCurrentPosition(lib, self) {
 		return motor.getProperty([self.index], "CurrentPosition");
+		// return 0; // placeholder value
 	}
 
 	async function Java_JSRobotDemo_waitForStart(lib, self) {
@@ -572,7 +577,8 @@ async function runProgram(code) { 	// the parameter code is not used anymore. we
 				Java_DcMotor_getCurrentPosition,
 				Java_DcMotor_setPower,
 				Java_DcMotor_setDirection,
-				Java_JSRobotDemo_waitForStart
+				Java_JSRobotDemo_waitForStart,
+				Java_HardwareMap_runJSCode
 		//   Java_Example_nativeSetApplication,
 			},
 		});
