@@ -1,0 +1,27 @@
+var Speed;
+
+// This function is executed when this Op Mode is selected.
+async function runOpMode() {
+  Speed = 0.75;
+  motor.setProperty([1], 'Direction', ["REVERSE"]);
+  motor.setProperty([3], 'Direction', ["REVERSE"]);
+  await linearOpMode.waitForStart();
+  if (linearOpMode.opModeIsActive()) {
+    motor.setProperty([0, 1, 2, 3], 'Power', [Speed, Speed, Speed, Speed]);
+    await linearOpMode.sleep(250);
+    motor.setProperty([0, 1, 2, 3], 'Power', [0, 0, 0, 0]);
+    await linearOpMode.sleep(1000);
+    for (var count = 0; count < 4; count++) {
+      motor.setProperty([0, 1, 2, 3], 'Power', [Speed, Speed, Speed, Speed]);
+      await linearOpMode.sleep(1000 / Speed);
+      motor.setProperty([0, 1, 2, 3], 'Power', [Speed, -Speed, Speed, -Speed]);
+      await linearOpMode.sleep(160);
+      await linearOpMode.sleep(1);
+    }
+    motor.setProperty([0, 1, 2, 3], 'Power', [0, 0, 0, 0]);
+    await linearOpMode.sleep(1000);
+  }
+}
+
+
+await runOpMode();

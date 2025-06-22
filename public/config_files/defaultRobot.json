@@ -1,0 +1,90 @@
+{
+	"motors": [
+		{
+			"name": "frontLeft",
+			"type": "extended",
+			"maxrpm": 340,
+			"encoder": 560
+		},
+		{
+			"name": "frontRight",
+			"type": "extended",
+			"maxrpm": 340,
+			"encoder": 560
+		},
+		{
+			"name": "backLeft",
+			"type": "extended",
+			"maxrpm": 340,
+			"encoder": 560
+		},
+		{
+			"name": "backRight",
+			"type": "extended",
+			"maxrpm": 340,
+			"encoder": 560
+		},
+		{
+			"name": "m5",
+			"type": "normal",
+			"maxrpm": 340,
+			"encoder": 560
+		},
+		{
+			"name": "m6-release sample",
+			"type": "normal",
+			"maxrpm": 340,
+			"encoder": 560
+		},
+		{
+			"name": "m7",
+			"type": "normal",
+			"maxrpm": 340,
+			"encoder": 560
+		},
+		{
+			"name": "m8",
+			"type": "normal",
+			"maxrpm": 340,
+			"encoder": 560
+		}
+	],
+	"servos": [
+		{
+			"name": "left_hand",
+			"type": "180degrees"
+		},
+		{
+			"name": "right_hand",
+			"type": "180degrees"
+		},
+		{
+			"name": "fullservo",
+			"type": "continuous"
+		}
+	],
+	"distanceSensor": [
+		{
+			"name": "frontDistanceSensor",
+			"type": "REV 2M"
+		}
+	],
+	"IMU": [
+		{
+			"name": "imu",
+			"type": "REV Control Hub"
+		}
+	],
+	"colorSensor": [
+		{
+			"name": "frontColorSensor",
+			"type": "REV Color Sensor V3"
+		}
+	],
+	"touchSensor": [
+		{
+			"name": "frontTouchSensor",
+			"type": "REV Touch Sensor"
+		}
+	]
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-WTPQBNZ7');</script>
+	<!-- End Google Tag Manager -->
+
+	<meta charset="utf-8">
+	<title>Virtual Robot Simulator</title>
+	<link rel="icon" type="image/x-icon" href="./logo.ico">
+	<link rel="stylesheet" href="./assets/css/homepage.css">
+	<meta property="og:image" content="./assets/images/vrsLogo.png">
+
+</head>
+
+<body>
+	
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WTPQBNZ7"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+
+	<link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
+	<div id="BKGD">
+		<div id="LoadingScreen"></div>
+		<img id="OrangeBKGD" src="./assets/images/OrangeBKGD.png">
+		<div id="Circle1">
+			<div id="InnerCircle1"></div>
+		</div>
+		<div id="Circle2">
+			<div id="InnerCircle2"></div>
+		</div>
+		<img id="FieldLogo" src="./assets/images/game-logo.png">
+	</div>
+	<div id="Icons">
+		<a id="FIRSTIllinois" href="https://www.firstillinoisrobotics.org/ftc/" target="_blank"><img
+				src="./assets/images/firstIllinoisLogo.png" style="height: 100%;"></a>
+		<a id="FTCLogo" href="https://www.firstinspires.org/robotics/ftc" target="_blank"><img
+				src="./assets/images/FTCLogo.png" style="height: 100%;"></a>
+	</div>
+	<div id="MainText">
+		<div id="TitleText">Welcome to the VIRTUAL ROBOT SIMULATOR PLATFORM</div>
+		<button onClick="nextPage('configpage.html')" id="RobotConfig">
+			<div id="ConfigText">Custom Robot Insertion</div>
+		</button>
+		<button onClick="overlay('https://www.youtube.com/embed/L_7WOG-qRKc?si=S6SOyBfTtk1JyAqn', true)" id="QuickstartButton">
+			<div id="QuickstartText">Quickstart</div>
+		</button>
+		<div id="VersionText">Version 2.5.0 - 11/2/2023</div>
+		
+	</div>
+	<div id="NavItems">
+		<div class="NavText" id="name"></div>
+		<!--<button class="NavButtons" id="logout">Logout</button>!-->
+		<button class="NavButtons" id="how-to-use-button">VRS Guidebook</button>
+		<button class="NavButtons" id="more-how-to-button">Lessons
+			on How to Use</button>
+		<button class="NavButtons" id="feedback-button">Feedback</button>
+		<div style="width: 1vw;"></div>
+	</div>
+	<a id="VRSLogo" href="http://vrobotsim.com/" target="https://vrobotsim.com/"><img src="./assets/images/vrsLogo.png"
+			style="width: 100%;"></a>
+	<div id="Selections">
+		<button id="localButton" class="SelectionPanel" onmouseover="buttonHover(this, true)"
+			onmouseout="buttonHover(this, false)">
+			<div class="SelectionTitle">Programming</div>
+			<img class="SelectionIcon" src="./assets/images/laptop.png">
+			<div class="SelectionHint">Learn More</div>
+			<div class="SelectionDesc">Program your very own FTC robot using the easy to use "Blockly"
+				programming language or Java</div>
+		</button>
+		<button
+		id="levelButton"
+		class="SelectionPanel"
+		onmouseover="buttonHover(this, true)"
+		onmouseout="buttonHover(this, false)"
+		>
+		<div class="SelectionTitle">Other Games</div>
+		<img class="SelectionIcon" src="./assets/images/FTCLogo.png" />
+		<div class="SelectionHint">Learn More</div>
+		<div class="SelectionDesc">
+		Use the "Blockly" programming language or Java with a number of older games!
+		</div>
+		</button>
+		<button id="multiplayerButton" class="SelectionPanel" onmouseover="buttonHover(this, true)"
+			onmouseout="buttonHover(this, false)">
+			<div class="SelectionTitle">Robot Arena</div>
+			<img class="SelectionIcon" src="./assets/images/gamepad.png">
+			<div class="SelectionHint">Learn More</div>
+			<div class="SelectionDesc">Test your driving skills solo or with friends using the 2022-23 FTC POWERPLAY Field</div>
+			<!--<div class="SelectionDesc">Test your driving skills solo or with friends using popular FTC
+				Fields and user-made custom Fields</div>-->
+		</button>
+	</div>
+
+	<div id="Overlay">
+		<div style="display: flex;">
+			<a onClick="overlay('', false)" id="BackButton"><i class="fa fa-chevron-left"></i></a>
+		</div>
+		<div class="container" style="flex: 1;">
+			<div style="width: 100%; height: 100%; background-color: #242424;">
+				<div id="overlayView" style="background-color: #000000; height: 100%">
+					<iframe src="" width="100%" height="100%" frameBorder="0"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>exports = {};//Autogen this</script>
+	<script src="./version.js"></script>
+	<script>
+		document.getElementById('VersionText').innerText = "Version "+exports.version+" - "+exports.version_date;
+		
+		document.getElementById('localButton').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'Programming button' })
+			nextPage('programpage.html');
+		})
+		document.getElementById('multiplayerButton').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'Multiplayer button' })
+			nextPage('arenapage.html')
+		})
+		document.getElementById('levelButton').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'Course Select button' })
+			nextPage('levelselector.html')
+		})
+		document.getElementById('how-to-use-button').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'How to use button' })
+			overlay('https://vrs-guidebook-2nd-edition.gitbook.io/vrs-guidebook-2nd-edition/vrs', true)
+		})
+		document.getElementById('more-how-to-button').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'More on How to Use' })
+			overlay('https://tinyurl.com/29jcpbcc', true)
+		}) 
+		document.getElementById('feedback-button').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'More on How to Use' })
+			overlay('https://forms.gle/M2N8oxpnGT5mRUQi9', true)
+		})
+		document.getElementById('VRSLogo').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'Top right VRS logo' })
+		})
+		document.getElementById('FIRSTIllinois').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'Top left First illinois robotics logo' })
+		})
+		document.getElementById('FTCLogo').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'Top left FTCLogo' })
+		})
+
+		document.getElementById('ConfigText').addEventListener('click', () => {
+			window.dataLayer.push({ 'event': 'click', 'label': 'Robot configuration' })
+		})
+	</script>
+
+	<script>
+		document.body.style.background = "#242424";
+
+		//Ensures Animations are not stuck
+		addEventListener('pageshow', (event) => {
+			if (event.persisted)
+				location.reload();
+		});
+
+		//LoadingScreen
+		document.getElementById('LoadingScreen').style.display = "inherit";
+		setTimeout(() => { document.getElementById('LoadingScreen').style.display = "none"; }, 275);
+
+		//ResetAllAnimations
+		var reset = false;
+
+		setTimeout(() => { if (!reset) resetAnimations() }, 2250);
+
+		function resetAnimations() {
+			document.getElementById('OrangeBKGD').style.animation = "none";
+			document.getElementById('MainText').style.animation = "none";
+			document.getElementById('Icons').style.animation = "none";
+			document.getElementById('localButton').style.animation = "none";
+			document.getElementById('multiplayerButton').style.animation = "none";
+			document.getElementById('levelButton').style.animation = "none";
+			document.getElementById('Circle1').style.animation = "none";
+			document.getElementById('Circle2').style.animation = "none";
+			document.getElementById('FieldLogo').style.animation = "none";
+		}
+
+		//Open Overlay
+		function overlay(link, open) {
+			document.getElementById('Overlay').lastElementChild.firstElementChild.firstElementChild.firstElementChild.src = link;
+			if (open) {
+				document.getElementById('Overlay').style.animation = "OverlayReveal .5s ease 1 normal forwards";
+			}
+			else {
+				document.getElementById('Overlay').style.animation = "OverlayHide .33s ease 1 normal forwards";
+			}
+		}
+
+		//Hover over Selection Items
+		function buttonHover(x, hovered) {
+			if (hovered) {
+				x.children[2].innerText = "Play";
+				x.lastElementChild.style.animation = "DescReveal .5s ease 1 normal forwards";
+			}
+			else {
+				x.children[2].innerText = "Learn More";
+				x.lastElementChild.style.animation = "DescHide .5s ease 1 normal forwards";
+			}
+		}
+
+		//Go to Auto, TeleOp, or Config
+		function nextPage(link) {
+			resetAnimations();
+			reset = true;
+
+			setTimeout(() => {
+				document.getElementById('OrangeBKGD').style.animation = "Intro_BKGD 1s ease reverse both";
+				document.getElementById('MainText').style.animation = "Intro_SlideFromLeft .75s ease reverse both";
+				document.getElementById('Icons').style.animation = "Intro_SlideFromTop .75s ease reverse both";
+				document.getElementById('localButton').style.animation = "Intro_Selections 1s ease reverse both";
+				document.getElementById('multiplayerButton').style.animation = "Intro_Selections 1s ease reverse both";
+				document.getElementById('levelButton').style.animation = "Intro_Selections 1s ease reverse both";
+				document.getElementById('Circle1').style.animation = "Intro_Circles 1s ease reverse both";
+				document.getElementById('Circle2').style.animation = "Intro_Circles 1s ease reverse both";
+				document.getElementById('FieldLogo').style.animation = "Intro_Circles 1s ease reverse both";
+			}, 5);
+
+			document.getElementById('RobotConfig').style.transition = "0s";
+			document.getElementById('QuickstartButton').style.transition = "0s";
+
+			setTimeout(() => {
+				var bttnLink = document.createElement('a');
+				bttnLink.href = link;
+				bttnLink.click();
+			}, 1005);
+		}
+
+	</script>
+	<script src="./renderers/home.js"></script>
+</body>
+
+</html>

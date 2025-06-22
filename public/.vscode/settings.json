@@ -1,0 +1,8 @@
+{
+    "workbench.colorTheme": "windows-nt",
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#0A3047",
+        "titleBar.activeBackground": "#0F4463",
+        "titleBar.activeForeground": "#F7FBFE"
+    }
+}

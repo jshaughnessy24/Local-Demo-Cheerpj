@@ -1,0 +1,555 @@
+body {
+  background: linear-gradient(248.98deg, #b24505 2.75%, #8d1d17 114.64%);
+  overflow: hidden;
+  margin: 7.5px;
+  margin-top: 5px;
+}
+
+h1 {
+  margin-top: 0%;
+  font-weight: normal;
+  font-size: 35px;
+  font-family: Jura;
+  font-weight: bolder;
+  color: white;
+}
+
+h2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 17.5px;
+  padding-left: 35px;
+  padding-right: 35px;
+  font-family: Jura;
+  color: white;
+}
+
+.buttonText {
+  top: 7.5px;
+  position: relative;
+  font-size: 30px;
+  font-weight: bolder;
+  font-family: Jura;
+  color: white;
+  cursor: default;
+}
+
+.textNormal {
+  color: grey;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.textNormal:hover {
+  color: white;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.center-horizontal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@font-face {
+  font-family: 'Jura';
+  src: url('../../assets/fonts/Jura-Light.ttf');
+}
+
+.blocklyText,
+.blocklyHtmlInput,
+.blocklyTreeLabel {
+  font-family: 'Jura', sans-serif !important;
+}
+
+.blocklyTreeLabel {
+  font-size: 20px !important;
+}
+
+.blocklyTreeRow {
+  height: 28px !important;
+  margin-top: 5px !important;
+}
+
+.blocklyToolboxCategory {
+  cursor: pointer;
+}
+
+.blocklyToolboxCategory[disabled="true"] {
+  position: relative;
+  top: -7.5px;
+  height: 27.5px;
+  cursor: default;
+}
+
+#Title {
+  background: transparent;
+}
+
+.noResultsText>.blocklyFlyoutLabelText {
+  font-style: italic !important;
+  fill: limegreen !important;
+}
+
+input:focus,
+textarea:focus,
+div:focus,
+select:focus {
+  outline: none;
+}
+
+
+.button1 {
+  height: 25px;
+  background-color: white;
+  border-radius: 6px;
+  color: #242424;
+  text-align: center;
+  font-family: Jura;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: #242424;
+  color: white;
+  border: 2px solid white;
+}
+
+.button1:hover {
+  background-color: white;
+  color: #242424;
+  border-color: white;
+}
+
+.button1:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.button1:disabled {
+  border: 2px solid grey;
+  background-color: transparent;
+  color: grey;
+  cursor: inherit;
+}
+
+.button1Selected {
+  color: black;
+  background-color: darkgray;
+  border-color: darkgray;
+}
+
+#backButton {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 10px;
+  padding: 2.5px;
+  padding-left: 1.5px;
+  padding-right: 3.5px;
+  font-size: 20px;
+  color: white;
+  border-radius: 100px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+#backButton:hover {
+  background-color: white;
+  color: black;
+}
+
+#backButton:focus {
+  background-color: white;
+  color: black;
+}
+
+input[type=text] {
+  width: 225px;
+  box-sizing: border-box;
+  border: 2px solid white;
+  border-radius: 6px;
+  font-family: Jura;
+  text-align: center;
+  font-size: 15px;
+  background-color: #242424;
+  color: white;
+}
+
+.searchInput[type=text] {
+  width: 145px;
+  font-size: 18.5px;
+  padding-left: 5px;
+  text-align: left;
+}
+
+.searchInput::placeholder {
+  color: white;
+}
+
+.dropdown-select {
+  font-family: Jura;
+  font-size: 15px;
+  position: relative;
+  font-weight: bold;
+  border: 0;
+  cursor: pointer;
+}
+
+.dropdown-select>option {
+  margin: 3px;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.dropdown-dark {
+  border-radius: 12px;
+  background-color: #242424;
+}
+
+.dropdown-dark:before {
+  border-bottom-color: white;
+}
+
+.dropdown-dark:after {
+  border-top-color: white;
+}
+
+.dropdown-dark .dropdown-select {
+  color: white;
+  text-shadow: 0 1px black;
+  background: #242424;
+}
+
+.dropdown-dark .dropdown-select:focus {
+  color: white;
+}
+
+.dropdown-dark .dropdown-select>option {
+  background: #242424;
+}
+
+::-webkit-scrollbar {
+  width: 7.5px;
+  background: transparent;
+  /* make scrollbar transparent */
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 100px;
+}
+
+.divider {
+  width: 7.5px;
+  height: 7.5px;
+  display: inline-block;
+  background-color: white;
+  margin-left: 13.75px;
+  margin-right: 13.75px;
+  top: -3.5px;
+  position: relative;
+}
+
+#tabDisplay {
+  height: 100%;
+  background-color: #242424;
+  border: 3.5px solid #ff9800;
+  padding: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes tabReveal {
+  from {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  to {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes tabHide {
+  from {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+  to {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(50px);
+  }
+}
+
+.middleGrabTabs {
+  position: relative;
+  left: 10px;
+  height: 10px;
+  cursor: ns-resize;
+}
+
+.sideGrabTabs {
+  width: 10px;
+  height: 100%;
+  margin-top: 5px;
+  padding-bottom: 8px;
+  cursor: ew-resize;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#resizeOverlay {
+  visibility: hidden;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+#programLoading {
+  border: 1px solid white;
+  position: absolute;
+  top: 40px;
+  background-color: #242424;
+  z-index: 95;
+}
+
+.overlay {
+  visibility: hidden;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: #00000044;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#overlayInfo {
+  height: 50%;
+  background-color: #242424;
+  border: 1px solid white;
+  height: 200px;
+  width: 400px;
+  margin-bottom: 150px;
+}
+
+@keyframes showOverlay {
+  from {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@keyframes hideOverlay {
+  from {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+@keyframes showOverlayInfo {
+  from {
+    margin-bottom: 250px;
+  }
+
+  to {
+    margin-bottom: 150px;
+  }
+}
+
+@keyframes hideOverlayInfo {
+  from {
+    margin-bottom: 150px;
+  }
+
+  to {
+    margin-bottom: 250px;
+  }
+}
+
+#howToScreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #00000088;
+  transition-duration: 1s;
+  clip-path: polygon(0% 0%, 0% 100%, 75% 100%, 75% 75%, 75% 75%, 75% 75%, 75% 75%, 75% 100%, 100% 100%, 100% 0%);
+}
+
+.howToPopUp {
+  width: 325px;
+  height: 405px;
+  border-radius: 20px;
+  background-color: #242424;
+  border: 3.5px solid #ff9800;
+  overflow: hidden;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes popUpWindow {
+  from {
+    width: 0px;
+    transform: scale(.5);
+  }
+
+  to {
+    width: 325px;
+    transform: scale(1);
+  }
+}
+
+@keyframes popUpClose {
+  from {
+    width: 325px;
+    opacity: 1;
+  }
+
+  to {
+    width: 0px;
+    opacity: 0;
+  }
+}
+
+#LoadingScreen {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(248.98deg, #b24505 2.75%, #8d1d17 114.64%);
+  ;
+  z-index: 100;
+
+  visibility: hidden;
+  animation: Intro_Loading 1s ease forwards;
+}
+
+@keyframes Intro_Loading {
+  from {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+#fieldView {
+	top: 40px;
+	right: 0px;
+	width: 49.5%;
+	height: calc(100vh - 49px) !important;
+	z-index: 100;
+	position: absolute;
+	background: #231f20;
+	border: 3.5px solid #ff9800;
+	transition: 0.5s ease-in-out;
+	webkit-backface-visibility: hidden;
+}
+.openFullScreen {
+	width: 100% !important;
+	transition: 0.5s ease-in-out;
+	height: 100vh;
+	webkit-backface-visibility: hidden;
+}
+iframe {
+	will-change: transform;
+}
+#fullScreenIcon {
+	position: absolute;
+	z-index: 1000;
+	width: 30px;
+	right: 10px;
+	top: 40px;
+	cursor: pointer;
+}
+#textSelection > div {
+	font-size: 25px !important;
+}
+#rightScreen {
+	min-width: 50%;
+	max-width: 50%;
+	background-color: #242424;
+	left: auto !important;
+	right: auto !important;
+}
+
+.modal {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 101;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-content {
+	min-width: 10px;
+	width: 80%;
+	position: relative;
+	min-height: 90%;
+	border-radius: 20px;
+}
+
+.close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	color: white;
+	cursor: pointer;
+	z-index: 101;
+}
+#rightScreen {
+	position: absolute;
+	min-width: 100%;
+	z-index: 103;
+	top: 0%;
+}

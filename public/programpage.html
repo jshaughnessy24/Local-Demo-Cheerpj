@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WTPQBNZ7');</script>
+    <!-- End Google Tag Manager -->
+    
+  <meta charset="utf-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <!-- https://www.youtube.com/watch?v=r9ZTWQtzk2Y -->
+  <!-- <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; script-src-elem 'self' 'unsafe-inline' https://developers.google.com/blockly/xml">
+  <meta http-equiv="X-Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; script-src-elem 'self' 'unsafe-inline' https://developers.google.com/blockly/xml"> -->
+  <title>VRS: Programming</title>
+  <link rel="icon" type="image/x-icon" href="./logo.ico">
+  
+
+  <link rel="stylesheet" href="./assets/css/programpage.css">
+
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WTPQBNZ7"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <script>
+    var courseName = window.location.search.substr(1).split('=')[1];
+    localStorage.setItem('CourseName',courseName);
+    console.log('course is '+ localStorage.getItem('CourseName'));
+  </script>
+  
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blockly/blockly_compressed.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blockly/blocks_compressed.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blockly/msg/js/en.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blockly/javascript_compressed.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typescript/5.0.4/typescript.min.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/src/beautify.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/src/custom-converter.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/src/format4js.js"></script>
+
+  <script src="./codemirror/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="./codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="./codemirror/theme/darcula.css">
+
+  <script src="./codemirror/addon/edit/closebrackets.js"></script>
+  <script src="./codemirror/addon/comment/comment.js"></script>
+  <script src="./codemirror/addon/fold/foldcode.js"></script>
+  <script src="./codemirror/addon/fold/foldgutter.js"></script>
+  <script src="./codemirror/addon/fold/brace-fold.js"></script>
+  <script src="./codemirror/addon/fold/comment-fold.js"></script>
+  <script src="./codemirror/addon/fold/indent-fold.js"></script>
+
+  <link rel="stylesheet" href="./codemirror/addon/hint/show-hint.css">
+  <script src="./codemirror/addon/hint/show-hint.js"></script>
+  <script src="./codemirror/mode/clike/clike.js"></script>
+  <script src="./codemirror/lib/util/formatting.js"></script>
+
+  <link rel="stylesheet" href="toolbox_style.css">
+
+  <link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
+
+
+  <div id="LoadingScreen"></div>
+  <div style="display: flex; width: 100%; justify-content: space-between;">
+    <a onclick="checkModified(0)" id="backButton"><i class="fa fa-chevron-left"></i></a>
+    <div style="min-width: 12.5px; display: inline-block;"></div>
+    <div id="topMenu" style="white-space: nowrap; overflow: hidden; margin-top: 5px;">
+      <div style="width: 12.5px; display: inline-block;"></div>
+      <button id='blocksBttn' class="button1 button1Selected">Blocks</button>
+      <div style="width: 10px; display: inline-block;"></div>
+      <button id='javaBttn' class="button1">OnBotJava</button>
+
+      <div class="divider"></div>
+
+      <button id="newProgramBttn" class="button1" onclick="checkModified(1)">New Program</button>
+      <div style="width: 10px; display: inline-block;"></div>
+      <button id="saveAs" class="button1" onclick="overlay(true, 0)">Save as...</button>
+      <div style="width: 10px; display: inline-block;"></div>
+      <div class="dropdown dropdown-dark" style="display: inline-block; background-color: #FFFFFF;">
+        <select id="programSelect" class="dropdown-select" onchange="checkModified(2)" style="width: 200px;">
+          <option value="Load Program">-Load Program-</option>
+        </select>
+      </div>
+      <div style="width: 10px; display: inline-block;"></div>
+      <button id="save" class="button1" onclick="autoSave()" disabled>Save</button>
+      <div style="width: 10px; display: inline-block;"></div>
+      <button id="delete" class="button1" onclick="overlay(true, 1)" disabled>Delete</button>
+      <div style="width: 10px; display: inline-block;"></div>
+      <a><button id="download" class="button1" onclick="downloadProgram(this)" disabled>Download</button></a>
+
+      <div class="divider"></div>
+
+      <div id="programStartStop" style="display: none;">
+        <button id="startBttn" class="button1" onclick="startProgram()">Start Program</button>
+        <div style="width: 10px; display: inline-block;"></div>
+        <button id="stopBttn" class="button1" onclick="stopProgram()">Stop Program</button>
+        <div style="width: 10px; display: inline-block;"></div>
+        <button id="resetBttn" class="button1" onclick="resetField()">Reset Field</button>
+      </div>
+      <div id="programInit" style="display: inline-block;">
+        <button id="initBttn" class="button1">Initialize Program</button>
+        <div style="width: 10px; display: inline-block;"></div>
+        <button id="resetBttn2" class="button1" onclick="resetField()">Reset Field</button>
+        <div style="width: 101.54px; display: inline-block;"></div>
+      </div>
+      <div style="width: 12.5px; display: inline-block;"></div>
+    </div>
+    <div style="min-width: 12.5px; display: inline-block;"></div>
+    <!--   <button id="howToBttn" class="button1" onClick="displayPopUp(true)"
+      style="min-width: 100px; height: 25px; margin-top: 2.5px;">to Use</button>
+    <button id="reportBugBttn" class="button1" onclick="openBugReport()"
+      style="min-width: 140px; height: 25px; margin-top: 2.5px;">Report a Bug</button>
+  </div>
+-->
+  </div>
+
+  <script>
+    localStorage.setItem('ProgramPage', true);
+    document.getElementById('initBttn').addEventListener('click', async () => {
+      await initProgram('')
+      window.dataLayer.push({
+        'event': 'click',
+        'label': 'Initialize program'
+      })
+    })
+    document.getElementById('javaBttn').addEventListener('click', () => {
+      checkModified(4)
+      window.dataLayer.push({
+        'event': 'click',
+        'label': 'OnBotJava'
+      })
+    })
+    document.getElementById('blocksBttn').addEventListener('click', () => {
+      checkModified(3)
+      window.dataLayer.push({
+        'event': 'click',
+        'label': 'Blocks'
+      })
+    })
+  </script>
+
+  <div class="container" style="display: flex; height: 100%;">
+    <div id="leftScreen" style="display: flex; min-width: 10px; width: 50%; min-height: 100vh;">
+      <div id="blocklyDiv" style="width: 100%; border:1px solid white;"></div>
+      <div id="onBotJavaDiv" style="width: 100%;">
+        <h1 id="loadingOBJText"></h1>
+      </div>
+    </div>
+
+    <div id="middleSlider" style="width: 10px; min-width: 10px; cursor: ew-resize;"></div>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div id="rightScreen">
+          <div id="controlPanel" style="min-width:40%; min-height: 80vh; background-color: #242424; overflow: hidden;  ">
+            <div style="width:100%; height: 10px; background-color: #4B4B4B; margin-top: 15px; margin-bottom: 20px;"></div>
+            <div id="textSelection" style="white-space: nowrap; overflow: hidden; margin-bottom: 30px;" class="buttonText">
+              <div style="width: 20px; display: inline-block; "></div>
+              <!-- <div  style="display: inline-block;" onclick="switchTab(this, 0)">Telemetry</div>
+              <div class="divider"></div> -->
+              <div id="firstTab" style="display: inline-block;" onclick="switchTab(this, 1)" class="textNormal">Joystick</div>
+              <div class="divider"></div>
+              <div style="display: inline-block;" onclick="switchTab(this, 2)" class="textNormal">Novice Lessons</div>
+              <div class="divider"></div>
+              <div style="display: inline-block;" onclick="closeModal()" class="textNormal">Close</div>
+
+            </div>
+            <div id="tabOptions" style="min-height: 80%;">
+              <div style="height: 100%; overflow: scroll;">
+              </div>
+              <div style="height: 100%; overflow: scroll;">
+                <div style="width:100%; overflow:hidden; overflow-wrap: break-word; background-color: #323232; display: flex; justify-content: space-between;">
+                  <h2 style="font-size: 20px; padding-right: 17.5px;">
+                    <img src=".\assets\images\CS-joystick.png" style="width: 100%; padding-left: 0%; padding-top: 17.5px;" />JoystickPark <br><br>
+                    <br>
+                  </h2>
+                </div>
+              </div>
+              <!-- Novice Lessons -->
+              <div style="display: none; height: 100%;">
+                <div style="display: flex; justify-content: space-between; overflow: hidden; height: 11%">
+                  <div style="width: 112px;"></div>
+                  <div class="dropdown dropdown-dark" style="display: inline-block; background-color: #FFFFFF; height: 24.8px;">
+                    <select id="lessonSelectNovice" class="dropdown-select" onChange="loadNoviceLesson()" style="font-size:20px;">
+                    </select>
+                  </div>
+                  <a class="button1" style="margin-right: 10px; padding: 6px; padding-top: 1.5px; height: 15px;" target="_blank" href='https://tinyurl.com/28nfcjzl'>
+                    Document <i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+                </div>
+                <div style="width:100%; overflow:hidden; background-color: #323232;">
+                  <h2 id="noviceLessonText" style="font-size: 20px; overflow: auto; height: 91%;">Select a Lesson to begin
+                    Learning!</h2>
+                </div>
+                <div id="lessonButtonsNovice" style="display: none; justify-content: center; align-items: center; overflow: hidden; height: 14.5%;">
+                  <button class="button1" onClick="runNoviceLessonCode()" style="font-size: 20px; white-space: nowrap; height: 29.2px;">Show the Task</button>
+                  <div style="width: 10%; display: inline-block;"></div>
+                  <button class="button1" onClick="playNoviceVideo(1)" style="font-size: 20px; white-space: nowrap; height: 29.2px;">Video Hint</button>
+                  <div style="width: 10%; display: inline-block;"></div>
+                  <button class="button1" onClick="playNoviceVideo(2)" style="font-size:20px; white-space: nowrap; height: 29.2px;">Video Solution</button>
+                  <div style="width: 10%; display: inline-block;"></div>
+                  <button class="button1" onClick="openNoviceSolutionCode()" style="font-size:20px; white-space: nowrap; height: 29.2px;">Solution Code <i class="fa fa-external-link-square" aria-hidden="true"></i> </button>
+                </div>
+              </div>
+              <!-- Advanced Lessons -->
+              <div style="display: none; height: 100%;">
+                <div style="display: flex; justify-content: space-between; overflow: hidden; height: 11%">
+                  <div style="width: 112px;"></div>
+                  <div class="dropdown dropdown-dark" style="display: inline-block; background-color: #FFFFFF; height: 24.8px;">
+                    <select id="lessonSelectAdvanced" class="dropdown-select" onChange="loadAdvancedLesson()" style="font-size:20px;">
+                      <option value=-1>-Coding Lessons to come-</option>
+
+                    </select>
+                  </div>
+                  <a class="button1" style="margin-right: 10px; padding: 6px; padding-top: 1.5px; height: 15px;" target="_blank" href='https://docs.google.com/document/d/e/2PACX-1vQV2H0gKgN3bhMRAw3UAjaA4crHYuqfqVDWTJaHp6k8fyPi4cHDNXBwM2J2XIe1uxYapXNrDQkO82KE/pub'>
+                    Document <i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+                </div>
+                <div style="width:100%; overflow:hidden; background-color: #323232;">
+                  <h2 id="advancedLessonText" style="font-size: 20px; overflow: auto; height: 91%;">Select a Lesson to begin
+                    Learning!</h2>
+                </div>
+                <div id="lessonButtonsAdvanced">
+                  style="display: none; justify-content: center; align-items: center; overflow: hidden; height: 14.5%;">
+                  <button class="button1" onClick="runAdvancedLessonCode()" style="font-size: 20px; white-space: nowrap; height: 29.2px;">Show the Task</button>
+                  <div style="width: 10%; display: inline-block;"></div>
+                  <button class="button1" onClick="playAdvancedVideo(1)" style="font-size: 20px; white-space: nowrap; height: 29.2px;">Video Hint</button>
+                  <div style="width: 10%; display: inline-block;"></div>
+                  <button class="button1" onClick="playAdvancedVideo(2)" style="font-size:20px; white-space: nowrap; height: 29.2px;">Video Solution</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="multiSlider" style="width: 15px; height: 15px; position:absolute; transform: translate(-12.5px, -2.5px); cursor: move;">
+          </div>
+          <div id="rightSlider" style="height: 10px; cursor: ns-resize;"></div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="fieldView">
+    <img onclick="toggleFullScreen()" src="./assets/icons/fullScreenRed.png" id="fullScreenIcon" />
+    <div id="textSelection" style=" position: absolute; z-index: 100; right: 50px; top: 35px;" class="buttonText">
+      <div  style="display: inline-block; color: #fff;">Telemetry</div>
+      <button id="openModalBtn" class="button1">Other Options</button>
+      <div style="height: 100%; overflow: scroll; margin-top: 10px;" id="telemtryOutput">
+        <div style="width:100%; overflow:hidden; overflow-wrap: break-word; background-color: #323232; display: flex; border-radius: 20px;">
+          <div id="telemetryColor" style="height: auto; width: 12.5px;"></div>
+          <p id="telemetryText" style="font-size: 15px; padding:6px; max-width: 250px; min-width: 250px; word-wrap: break-word;">-Telemetry Output-</p>
+        </div>
+      </div>
+    </div>
+    <iframe scrolling="no" src="./webgl/index.html" id="fieldViewiframe" width="100%" height="100%" frameBorder="0" hidden allowTransparency="true" background="transparent"></iframe>
+    <div class="center" id="loadingTextDiv">
+      <h1 id="loadingText">Loading Field</h1>
+    </div>
+
+  </div>
+  <div id="tabOverlay" style="position: absolute; z-index: 96; display: flex; visibility: hidden; opacity: 0;">
+    <!--Left Grabbables-->
+    <div id="leftGrabTab" class="sideGrabTabs" style="transform: translateX(5px);">
+      <div id="topLeftGrabTab" style="width: 15px; height: 15px; cursor: nwse-resize;"></div>
+      <div id="bottomLeftGrabTab" style="width: 15px; height: 15px; cursor: nesw-resize; transform: translateY(23px)">
+      </div>
+    </div>
+    <!--Middle Grabbables-->
+    <div style="height: 100%; width: 100%;">
+      <div id="topGrabTab" class="middleGrabTabs" style="transform: translateY(5px);"></div>
+      <div id="tabDisplay">
+        <div style="display: flex; justify-content: space-between;">
+          <a onclick="closeTab()" id="backButton" style="margin-bottom:5px;"><i class="fa fa-chevron-left"></i></a>
+          <div id="tabMovable" style="flex: 1; cursor: move;"></div>
+          <a id="newTab" class="button1" onclick="closeTab()" style="padding: 5px; padding-top: 1.5px; height: 13px; font-size: 13px;" target="_blank">
+            New Tab <i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+          <div style="width: 7.5px;"></div>
+          <a id="tabMaxRestore" class="button1" onclick="restoreMaximizeTab()" style="padding: 5px; padding-top: 1.5px; height: 13px; font-size: 13px;">
+            Maximize <i class="fa fa-window-maximize" aria-hidden="true"></i></a>
+        </div>
+        <div style="flex: 1;">
+          <div style="width: 100%; height: 100%; background-color: #242424;">
+            <div style="background-color: #000000; height: 100%">
+              <iframe id="tabIFrame" src='' width="100%" height="100%" frameBorder="0"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="bottomGrabTab" class="middleGrabTabs" style="transform: translateY(-5px);"></div>
+    </div>
+    <!--Bottom Grabbables-->
+    <div id="rightGrabTab" class="sideGrabTabs" style="transform: translateX(-5px);">
+      <div id="topRightGrabTab" style="width: 15px; height: 15px; cursor: nesw-resize;"></div>
+      <div id="bottomRightGrabTab" style="width: 15px; height: 15px; cursor: nwse-resize; transform: translateY(23px)">
+      </div>
+    </div>
+  </div>
+
+  <div id="resizeOverlay"></div>
+
+  <div id="programLoading">
+    <h1 id="loadingProgText" style="text-align: center; padding-top: 47.5%;">Loading Tools</h1>
+  </div>
+
+  <div id="overlay" class="overlay">
+    <div id="overlayInfo">
+      <div style="display: flex; padding-top: 2.5px;">
+        <a id="backButton" style="margin: 7.5px;" onClick="overlay(false, 0)"><i class="fa fa-chevron-left"></i></a>
+        <h1 id="overlayName" style="text-align: center; width: 320px; position: relative; top: 2.5px; margin-bottom: 10px;">Save Program
+        </h1>
+      </div>
+      <div style="width:100%; height: 1px; background-color: #4B4B4B;"></div>
+      <div id="overlayType">
+        <div style="display: none;">
+          <form onSubmit="return false;" style="display: flex; justify-content: center; margin-top: 38.5px;">
+            <input type="text" id="saveProgramName" style="font-size: 20px;" placeholder="Enter Name..." autocomplete="off">
+          </form>
+          <button class="button1" onclick="saveProgram()" style="font-size: 18.5px; margin-top: 38.5px; margin-left: 315px; height: 30px; width: 75px;">Save</button>
+        </div>
+        <div style="display: none;">
+          <img src="./assets/images/trashProgram.png" style="width: 33%; padding-left: 33%; padding-top: 17.5px;" />
+          <button class="button1" onclick="deleteProgram()" style="font-size: 18.5px; margin-top: 17.5px; margin-left: 310px; height: 30px; width: 80px;">Delete</button>
+        </div>
+        <div style="display: none;">
+          <form onSubmit="return false;" style="display: flex; justify-content: center; margin-top: 38.5px;">
+            <input type="text" id="newVariableName" style="font-size: 20px;" placeholder="Variable Name..." autocomplete="off">
+          </form>
+          <button class="button1" onclick="overlay(false, 1)" style="font-size: 18.5px; margin-top: 38.5px; margin-left: 310px; height: 30px; width: 80px;">Create</button>
+        </div>
+        <div style="display: none;">
+          <form onSubmit="return false;" style="display: flex; justify-content: center; margin-top: 38.5px;">
+            <input type="text" id="changedVariableName" style="font-size: 20px;" placeholder="Variable Name..." autocomplete="off">
+          </form>
+          <button class="button1" onclick="overlay(false, 2)" style="font-size: 18.5px; margin-top: 38.5px; margin-left: 300px; height: 30px; width: 90px;">Rename</button>
+        </div>
+        <div style="display: none;">
+          <div style="display: flex; justify-content: center; margin-top: 10px;">
+            <div>
+              <h1 style="text-align: center; font-size: 20px; color: lightgrey;">Create:</h1>
+              <div class="dropdown dropdown-dark" onchange="sampleProgram(true)" style="display: flex; background-color: #FFFFFF;">
+                <select id="blockSelect" class="dropdown-select" style="font-size:20px; width: 200px; text-align-last:center;">
+                  <option value=''>-Block Program-</option>
+                  <optgroup label="Default OpMode">
+                    <option value='BasicAutoOpMode'>Autonomous</option>
+                    <option value='BasicOpMode'>DriverControl</option>
+                  </optgroup>
+                  <optgroup label="Driver Control">
+                    <option value='BasicPOVDrive'>POVDrive</option>
+                    <option value='BasicTankDrive'>TankDrive</option>
+                  </optgroup>
+                  <optgroup label="Concept">
+                    <option value='ConceptDeviceInteraction'>DeviceInteraction</option>
+                    <option value='ConceptSmoothServo'>SmoothServo</option>
+                  </optgroup>
+                  <optgroup label="Sensor">
+                    <option value='SensorIMU'>IMU</option>
+                    <option value='SensorREVColorDistance'>Color/Distance</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div style="background-color: grey; height: 1.5px; margin: 12.5px;"></div>
+              <div class="dropdown dropdown-dark" onChange="sampleProgram(false)" style="display: inline-block; background-color: #FFFFFF;">
+                <select id="javaSelect" class="dropdown-select" style="font-size:20px; max-width: 200px; text-align-last:center;">
+                  <option value=''>-Java Program-</option>
+                  <optgroup label="Default OpMode">
+                    <option value='BlankLinearOpMode'>Linear</option>
+                    <option value='BlankIterativeOpMode'>Iterative</option>
+                  </optgroup>
+                  <optgroup label="POV Drive">
+                    <option value='BasicOpMode_Linear'>Linear</option>
+                    <option value='BasicOpMode_Iterative'>Iterative</option>
+                  </optgroup>
+                  <optgroup label="Concept">
+                    <option value='ConceptNullOp'>NullOp</option>
+                    <option value='ConceptRampMotorSpeed'>RampMotorSpeed</option>
+                    <option value='ConceptScanServo'>ScanServo</option>
+                    <option value='ConceptTelemetry'>Telemetry</option>
+                  </optgroup>
+                  <optgroup label="Pushbot">
+                    <option value='HardwarePushbot'>Hardware</option>
+                    <option value='PushbotAutoDriveByEncoder_Linear'>AutoDriveByEncoder</option>
+                    <option value='PushbotAutoDriveByTime_Linear'>AutoDriveByTime</option>
+                    <option value='PushbotTeleOpPOV_Linear'>LinearPOVDrive</option>
+                    <option value='PushbotTeleOpTank_Iterative'>IterativeTankDrive</option>
+                  </optgroup>
+                  <optgroup label="Sensor">
+                    <option value='SensorBNO055IMU'>BNO055IMU</option>
+                    <option value='SensorREV2mDistance'>REV2mDistance</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+            <div style="width: 35px; display:inline-block;"></div>
+            <div style="width: 130px;">
+              <input id="filePrompt" type="file" accept=".blk,.java,.txt" style="display:none;">
+              <button class="button1" onclick="document.getElementById('filePrompt').click()" style="font-size: 20px; width: 130px; height: 55px; padding-bottom: 10px;">Upload Program</button>
+              <div style="height: 10px;"></div>
+              <button id="blockjavaConvert" class="button1" onclick="convertToJava()" style="font-size: 20px; width: 130px; height: 55px; padding-bottom: 10px;">Export to OnBotJava</button>
+            </div>
+          </div>
+        </div>
+        <div style="display: none;">
+          <div id="configRenamer" style="height: 100px; overflow-y: scroll;">
+            <h2 style="display:none; font-size:18.5px; padding-left:25px; padding-right:25px;">
+              <div style="width:165px;"></div>
+              <i class="fa fa-arrow-circle-right" style="margin:5px; margin-bottom:0px;"></i>
+              <div class="dropdown dropdown-dark" style="display:flex; background-color:#FFFFFF;">
+                <select class="dropdown-select" style="font-size:18.5px; width:165px; text-align:center;">
+                </select>
+              </div>
+            </h2>
+          </div>
+          <div style="display:flex; margin-top:10px;">
+            <div class="dropdown dropdown-dark" style="display:flex; background-color:#FFFFFF; margin-left:5px;">
+              <select class="dropdown-select" style="font-size:20px;">
+                <option value=''>Default Robot</option>
+              </select>
+            </div>
+            <button class="button1" onclick="overlay(false, 3)" style="font-size: 18.5px; margin-left: 145px; height: 30px; width: 90px;">Done</button>
+          </div>
+        </div>
+        <div style="display: none;">
+          <h2 id="SaveReminderText" style="text-align: center; font-size: 22.5px;">Your Program<br>"Unnammed"<br>Has
+            Unsaved Changes!</h2>
+          <div style="display:flex; margin-top:20px; justify-content: space-around;">
+            <button class="button1" onclick="modifiedResult(0)" style="font-size: 18.5px; height: 30px; width: 90px;">Discard</button>
+            <button class="button1" onclick="modifiedResult(1)" style="font-size: 18.5px; height: 30px; width: 90px;">Save</button>
+            <button class="button1" onclick="modifiedResult(2)" style="font-size: 18.5px; height: 30px; width: 90px;">Save As</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="howToOverlay" class="overlay" style="text-align: center; background-color: transparent; z-index: 980;">
+    <div id="howToScreen"></div>
+    <div id="howToIntro" class="howToPopUp">
+      <div style="display: flex; width: 325px;">
+        <a id="backButton" style="margin: 7.5px; margin-right: 2.5px; flex: 0 0 auto;" onClick="displayPopUp(false)"><i class="fa fa-chevron-left"></i></a>
+        <h2 style="font-size: 30px; padding-left: 0px;">Welcome to the Simulator!</h2>
+      </div>
+      <div style="width:100%; height: 1px; background-color: #4B4B4B;"></div>
+      <h2 style="padding: 15px; padding-top: 2.5px; padding-bottom: 10px; font-size: 20px; width: 295px;">Here, you will
+        be able to control your robot through the programming language of Blocks or Java!<br><br>
+        If you wish to learn how everything works, you can either have these text boxes guide you or watch our
+        explanatory video.</h2>
+      <div style="display: flex; justify-content: space-around; width: 325px;">
+        <button class="button1" onclick="runHowTo()" style="font-size: 18.5px; height: 35px; width: 125px;">Text
+          Guide</button>
+        <button class="button1" onclick="playVideo(0); displayPopUp(false);" style="font-size: 18.5px; height: 35px; width: 125px;">Video Guide</button>
+      </div>
+    </div>
+    <div id="howToText" class="howToPopUp" style="width: 475px; height: auto; position: absolute; opacity: 0; display: none; transition-duration: .25s;">
+      <div style="display: flex; width: 100%;">
+        <h2 style="font-size: 15px; padding-left: 40px; padding-right: 0px; flex: 1; color: darkgrey;">Step (1/15)</h2>
+        <a id="backButton" style="margin: 7.5px; flex: 0 0 auto; font-size: 22px; padding: 2.5px; padding-top: .5px; padding-bottom: 4.5px;" onClick="stopHowTo()"><i class="fa fa-times"></i></a>
+      </div>
+      <h2 style="padding: 10px; margin-top: 2.5px; padding-top: 0px; padding-bottom: 10px; font-size: 20px;"></h2>
+      <div style="display: flex;">
+        <button class="button1" onclick="howToReset()" style="font-size: 18.5px; height: 32.5px; margin-bottom: 10px; margin-right: 20px; display: none; width: 100px;">Reset</button>
+        <button class="button1" onclick="runHowTo()" style="font-size: 18.5px; height: 32.5px; margin-bottom: 10px;  width: 100px;">Next ></button>
+      </div>
+    </div>
+  </div>
+
+  <div id="searchspace" style="display: none;"></div>
+
+  <script>
+    //---Loading Screen Instructions---
+    document.body.style.background = "#242424";
+
+    setTimeout(() => {
+      document.getElementById('LoadingScreen').style.animation = "none"
+    }, 1000);
+
+    function goBack() {
+      document.getElementById('LoadingScreen').style.animation = "Intro_Loading .5s ease reverse both";
+
+      setTimeout(() => {
+        window.history.go(-1);
+      }, 500);
+    }
+  </script>
+
+  <script src="https://cjrtnc.leaningtech.com/4.1/loader.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/src/programExecution.js"></script>
+
+  <script>
+    //---Sets up Blockly Interface---
+    Blockly.JavaScript.addReservedWords('exit');
+
+    var searchspace = Blockly.inject("searchspace");
+
+    var workspace = Blockly.inject('blocklyDiv', {
+      media: './modules/RSM-CodeExecutionModule/blocks/media/',
+      //Temp Toolbox
+      toolbox: '<xml><category name="temp"></category></xml>',
+      move: {
+        scrollbars: true,
+        drag: true,
+        wheel: false
+      },
+      theme: {
+        'base': Blockly.Themes.Classic,
+        'fontStyle': {
+          "weight": "bold",
+          "size": 12
+        },
+        'componentStyles': {
+          'workspaceBackgroundColour': '#242424',
+          "toolboxBackgroundColour": "#333",
+          "scrollbarColour": "#424242",
+          "toolboxForegroundColour": "#FFFFFF",
+          "flyoutBackgroundColour": "#424242",
+          "markerColour": "#FFFFFF"
+        }
+      },
+      grid: {
+        spacing: 50,
+        length: 5,
+        colour: '#505050',
+      },
+      trashcan: true,
+      zoom: {
+        controls: true,
+        wheel: true,
+        startScale: 1.0,
+        maxScale: 3,
+        minScale: 0.3,
+        scaleSpeed: 1.2,
+        pinch: true
+      }
+
+    });
+
+    //Some Functions need Toolbox Loaded to Work
+    function toolboxLoaded(toolboxTxt) {
+      workspace.updateToolbox(toolboxTxt);
+
+      //Sets up Title Category
+      workspace.getToolbox().getToolboxItemById('Title').setDisabled('true');
+
+      //Sets up Search Category
+      searchInput = document.createElement('input');
+      searchInput.type = "text";
+      searchInput.placeholder = "Search";
+      searchInput.classList.add("searchInput");
+      searchInput.addEventListener("input", searchFor);
+      searchInput.addEventListener("focus", searchFor);
+
+      document.getElementById('Searcher.label').parentElement.appendChild(searchInput);
+      document.getElementById('Searcher.label').parentElement.style.pointerEvents = "all";
+    }
+
+    //Search Functions in Work
+    var blockList = [];
+
+    //Function called upon input change
+    function searchFor() {
+      searchItem = searchInput.value;
+
+      blockList = [];
+
+      if (searchItem !== "")
+        searchCategory(document.getElementById('toolbox').childNodes, searchItem);
+      if (workspace.getToolbox().getSelectedItem())
+        workspace.getToolbox().deselectItem_(workspace.getToolbox().getSelectedItem());
+      workspace.getToolbox().setSelectedItem(workspace.getToolbox().getToolboxItemById('Searcher'));
+    }
+
+    //Searches through all available blocks
+    function searchCategory(childNodes, searchItem) {
+      searchItem = searchItem.toLowerCase();
+      searchItems = searchItem.split(' ');
+      categories = workspace.getToolbox().getToolboxItems();
+
+      //Goes through Categories
+      for (var c = 0; c < categories.length; c++) {
+        //Ensures value is category and not hidden
+        if (typeof categories[c].flyoutItems_ != "object" || categories[c].isHidden_ == true)
+          continue;
+
+        //Parse through Blocks in Category
+        blocks = categories[c].flyoutItems_;
+        for (var b = 0; b < blocks.length; b++) {
+
+          //Grabs Tooltip from Block
+          blockTip = searchspace.newBlock(blocks[b].type);
+          for (var i = 0; i < blocks[b].blockxml.children.length; i++)
+            if (blocks[b].blockxml.children[i].tagName == "FIELD")
+              blockTip.setFieldValue(blocks[b].blockxml.children[i].innerHTML, blocks[b].blockxml.children[i].attributes[0].value);
+          tooltip = blockTip.getTooltip().toLowerCase();
+          blockTip.dispose();
+
+          //Adds on bkgd name of block just in case (Matches what is shown on block more)
+          tooltip += blocks[b].type.toLowerCase();
+
+          //Checks if all search queries are results
+          var match = true;
+          for (var i = 0; i < searchItems.length; i++)
+            if (tooltip.search(searchItems[i]) == -1)
+              match = false;
+
+          //Success! -> Put into List
+          if (match)
+            blockList.push({
+              'kind': 'block',
+              'blockxml': blocks[b].blockxml
+            });
+        }
+        //20 or more can cause some lag (Just refine your search)
+        if (blockList.length > 20)
+          break;
+      }
+    }
+
+    function openBugReport() {
+      window.open("https://github.com/VRS-Power-Play/Power-Play-Bug/issues/",
+        "", "width=600, height=600");
+    }
+
+    //Returns array of searched blocks
+    var searchFlyout = function(workspace) {
+      if (blockList.length == 0) {
+        blockList.push({
+          'kind': 'label',
+          'text': 'No Results Found',
+          'web-class': 'noResultsText'
+        });
+      }
+      return blockList;
+    };
+
+    //Assigns new Blocks to SearchCategory when opened
+    workspace.registerToolboxCategoryCallback(
+      'SearchResults', searchFlyout);
+  </script>
+
+  <script src="./config_files/configSetup.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/ftcblockly.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/ftcjava.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/acceleration.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/angular_velocity.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/bno055imu.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/bno055imu_parameters.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/color.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/color_range_sensor.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/cr_servo.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/dbg_log.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/dc_motor.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/distance_sensor.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/elapsed_time2.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/gamepad.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/linear_op_mode.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/lists.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/locale.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/logic.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/loops.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/magnetic_flux.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/math.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/matrix_f.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/misc.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/navigation.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/open_gl_matrix.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/orientation.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/pidf_coefficients.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/position.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/quaternion.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/range.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/servo.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/system.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/telemetry.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/temperature.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/text.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/touch_sensor.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/variables.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/vars.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/vector_f.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/velocity.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/blocks/blocks/procedures.js"></script>
+  <script src="./modules/RSM-CodeExecutionModule/src/javascript-to-blocks-wrapper.js"></script>
+  <script src="./assets/js/programpageScript.js"></script>
+  <script src="./renderers/program.js"></script>
+</body>
+
+</html>
