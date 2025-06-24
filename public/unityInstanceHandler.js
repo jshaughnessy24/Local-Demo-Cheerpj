@@ -14,11 +14,14 @@ var alreadySetPlayMode = false;
 var setCourse = false;
 function check() {
     if (UnityInstance != null) {
+        
+            
 
         //window.electronAPI.setUnityInstance(UnityInstance);
         //console.log("TOP");
         //console.log(window.top[1].electronAPI);
         var playMode = localStorage.getItem('playMode');
+       console.log(playMode);
         var isProgramPage = localStorage.getItem('ProgramPage');
         var courseSelected = localStorage.getItem('CourseName');
         if(courseSelected != "" && !setCourse)

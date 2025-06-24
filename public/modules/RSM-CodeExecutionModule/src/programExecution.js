@@ -516,6 +516,7 @@ var programExecController = new AbortController();
 
 async function runProgram(code) { 	// the parameter code is not used anymore. we have a separate jar file for now
 	// implements the native function runJSCode
+	
 	async function Java_HardwareMap_runJSCode(lib,  str) {
 		Java_JSRobotDemo_runJSCode(lib, str)
 	}
