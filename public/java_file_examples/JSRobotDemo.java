@@ -1,6 +1,5 @@
 import java.util.concurrent.TimeUnit;
 
-
 public class JSRobotDemo extends OpModeBase{
     // Native method to run javaScript code
     private DcMotor frontLeft;

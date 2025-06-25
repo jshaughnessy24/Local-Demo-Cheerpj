@@ -216,6 +216,227 @@
 
 
   </script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | Robot Simulator</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<script type="text/javascript" src="../unityInstanceHandler.js"></script>
+
+<body>
+  <div id="unity-container" class="unity-desktop">
+    <canvas id="unity-canvas" width=960 height=600></canvas>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+    <div id="unity-mobile-warning">
+      WebGL builds are not supported on mobile devices.
+    </div>
+    <div id="unity-footer">
+      <div id="unity-webgl-logo"></div>
+      <div id="unity-fullscreen-button"></div>
+      <div id="unity-build-title">Robot Simulator</div>
+    </div>
+  </div>
+  <script>
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/build.loader.js";
+    var config = {
+      dataUrl: buildUrl + "/build.data.unityweb",
+      frameworkUrl: buildUrl + "/build.framework.js.unityweb",
+      codeUrl: buildUrl + "/build.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "VirtualFTC",
+      productName: "Robot Simulator",
+      productVersion: "0.1",
+    };
+
+    var container = document.querySelector("#unity-container");
+    var canvas = document.querySelector("#unity-canvas");
+    var loadingBar = document.querySelector("#unity-loading-bar");
+    var progressBarFull = document.querySelector("#unity-progress-bar-full");
+    var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+    var mobileWarning = document.querySelector("#unity-mobile-warning");
+
+    // By default Unity keeps WebGL canvas render target size matched with
+    // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+    // Set this to false if you want to decouple this synchronization from
+    // happening inside the engine, and you would instead like to size up
+    // the canvas DOM size and WebGL render target sizes yourself.
+    // config.matchWebGLToCanvasSize = false;
+
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      container.className = "unity-mobile";
+      // Avoid draining fillrate performance on mobile devices,
+      // and default/override low DPI mode on mobile browsers.
+      config.devicePixelRatio = 1;
+      mobileWarning.style.display = "block";
+      setTimeout(() => {
+        mobileWarning.style.display = "none";
+      }, 5000);
+    } else {
+      document.querySelector("#unity-footer").style.display = "none";
+
+      const resizeCanvas = () => {
+        const fieldView = parent.document.querySelector('#fieldView');
+
+        canvas.style.width = `${fieldView.offsetWidth}px`;
+        canvas.style.height = `${fieldView.offsetHeight}px`;
+      }
+
+      resizeCanvas();
+
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+      })
+    }
+    loadingBar.style.display = "block";
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(canvas, config, (progress) => {
+        progressBarFull.style.width = 100 * progress + "%";
+      }).then((unityInstance) => {
+        console.log("WROTE: " + unityInstance);
+        UnityInstance = unityInstance;
+        window.unity = unityInstance;
+        loadingBar.style.display = "none";
+        fullscreenButton.onclick = () => {
+          unityInstance.SetFullscreen(1);
+        };
+      }).catch((message) => {
+        alert(message);
+      });
+    };
+    document.body.appendChild(script);
+    var frontLeftEncoder = 0;
+    var frontRightEncoder = 0;
+    var backLeftEncoder = 0;
+    var backRightEncoder = 0;
+    var sliderEncoder = 0;
+    var gripperEncoder = 0;
+    var encoders = [0,0,0,0,0,0,0,0];//replace all above encoders with this array
+
+    //Example Input into function           IMU Values: acceleration, angular orientation, gravity... (maybe more?)         Color Values: RGBA Proximity
+    getUpdate('{"motors":[0,0,0,0,0,0,0,0],"distanceSensorReadings":[0],"imuReadings":[[0,0,0,0,0]],"colorSensorReadings":[[0,0,0,0,0]],"touchSensorReadings":[false], "imuSensorReadings":[[0,0,0,0,0,0,0,0,0]]}');
+
+    //WIP - Compile all incoming data into this function instead of seperate set[Motor]Encoders functions
+    function getUpdate(data) {
+      const obj = JSON.parse(data);
+      localStorage.setItem('motorCurrentPositions', JSON.stringify(obj.motors));
+      localStorage.setItem('distanceSensorReadings', JSON.stringify(obj.distanceSensorReadings));
+      localStorage.setItem('imuReadings', JSON.stringify(obj.imuReadings));
+      localStorage.setItem('colorSensorReadings', JSON.stringify(obj.colorSensorReadings));
+      localStorage.setItem('touchSensorReadings', JSON.stringify(obj.touchSensorReadings));
+      localStorage.setItem('imuSensorReadings', JSON.stringify(obj.imuSensorReadings));
+
+      // Add more incoming data parsing methods once format is finalized.
+
+      //Sensor Javascript functions not setup currently so have this instead to test
+      console.log("DistanceValues: " + obj.distanceSensorReadings);
+      console.log("IMUValues: " + obj.imuReadings);
+      console.log("ColorSensorValues: " + obj.colorSensorReadings);
+      console.log("TOuchSensorValues: " + obj.touchSensorReadings);
+    }
+
+    function setColorSensorData(R, G, B, Distance,Direction) {
+      // console.log("SETTING COLOR SENSOR READINGSS: " + R + "," + G + "," + B + "," + Distance + "," + Direction);
+      localStorage.setItem('colorSensorReadings', "[[" + R + "," + G + "," + B + "," + Distance + "," + Direction + "]]");
+    }
+
+    function setColorSensorReadings(data) {
+      // console.log("SETTING COLOR SENSOR READINGSS: " + R + "," + G + "," + B + "," + Distance + "," + Direction);
+      localStorage.setItem('colorSensorReadings', JSON.stringify(data));
+    }
+
+
+    function setTouchSensorData(state) {
+      // console.log("SETTING COLOR SENSOR READINGSS: " + R + "," + G + "," + B + "," + Distance);
+      localStorage.setItem('touchSensorReadings', "[[" + state + "]]");
+    }
+
+    function setDistanceSensorData(distance) {
+      setTouchSensorData(distance < 5);
+      // console.log("SET DIST SENSOR READINGSS: " + distance);
+      localStorage.setItem('distanceSensorReadings', "[[" + distance + "]]");
+    }
+
+    //Old Code (Lean off of using this)
+    function setFrontLeftEncoders(encoders) {
+      frontLeftEncoder = encoders;
+      updateEncoderLocalStorage();
+    }
+    function setFrontRightEncoders(encoders) {
+      frontRightEncoder = encoders;
+      updateEncoderLocalStorage();
+    }
+    function setBackLeftEncoders(encoders) {
+      backLeftEncoder = encoders;
+      updateEncoderLocalStorage();
+    }
+    function setBackRightEncoders(encoders) {
+      backRightEncoder = encoders;
+      updateEncoderLocalStorage();
+    }
+
+    function setSliderEncoders(encoders) {
+      sliderEncoder = encoders;
+      updateEncoderLocalStorage();
+    }
+
+    function setGripperEncoders(encoders) {
+      gripperEncoder = encoders;
+      updateEncoderLocalStorage();
+    }
+
+    function setMotorEncoders(motorNum, encoders) {
+      encoders[motorNum] = encoders;
+      updateEncoderLocalStorage();
+    }
+
+
+
+    function updateEncoderLocalStorage() {
+      var motorPositions = "[" + frontLeftEncoder + ", " + frontRightEncoder + ", " + backLeftEncoder + ", " + backRightEncoder+ ", " + gripperEncoder+ ", " + sliderEncoder + ","+ encoders[6]+","+encoders[7] +"]";
+      localStorage.setItem('motorCurrentPositions', motorPositions);
+    }
+
+    function setIMUSensorData(x, y, z, angularX, angularY, angularZ, positionX, positionY, positionZ, orientationX, orientationY, orientationZ) {
+      var temp = "[[" + x + "," + y + "," + z + "," 
+                                                     + angularX + "," + angularY + "," + angularZ + "," 
+                                                     + positionX + "," + positionY + "," + positionZ + "," 
+                                                     + orientationX + "," + orientationY + "," + orientationZ 
+                                                     + "]]"
+      localStorage.setItem('imuSensorReadings', temp);
+    }
+
+    function setSignalSensor(signalType) {
+      localStorage.setItem('signalType', signalType);
+    }
+
+    function addToLeaderboard(points,game){
+      sendToLeaderboard(points,game);
+    }
+
+    function reqLeaderboard(){
+      requestLeaderboard();
+    }
+	  //Old Code (Lean off of using this)
+
+
+  </script>
 
 
 </body>
