@@ -1,10 +1,8 @@
 //Resets Actuator/Sensor Data
 function resetProperties() {
-<<<<<<< HEAD
-	for (i = 0; i < ["servos"].length; i++) {
-=======
+
 	for (i = 0; i < robotConfig["servos"].length; i++) {
->>>>>>> 048ca45b5512a703a518af34ceface5daa866f26
+
 		robotConfig["servos"][i]["Direction"] = "FORWARD";
 		robotConfig["servos"][i]["Power"] = 0;
 		robotConfig["servos"][i]["Position"] = 0;
@@ -163,15 +161,10 @@ let motor = {
 	setProperty: function (motorNums, property, values) {
 		for (var i = 0; i < motorNums.length; i++) {
 			//Don't want bad values!
-<<<<<<< HEAD
 			console.log(motorNums.length);
 			console.log(values[i])
 			//if (!values[i] && values[i] != 0)
 				//throw 'TypeError: Cannot read ' + property.toLowerCase() + ' property of undefined';
-=======
-			if (!values[i] && values[i] != 0)
-				throw 'TypeError: Cannot read ' + property.toLowerCase() + ' property of undefined';
->>>>>>> 048ca45b5512a703a518af34ceface5daa866f26
 			//Translates Power to Velocity
 			if (property == 'Power') {
 				values[i] = Math.min(1, Math.max(values[i], -1));

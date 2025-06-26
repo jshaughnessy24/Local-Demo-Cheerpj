@@ -1,4 +1,4 @@
-public class OpModeManager {
+public class OpModeManager extends Run{
 
     private static OpModeManager manager;
 
@@ -14,5 +14,11 @@ public class OpModeManager {
 
     
 
-    public native String getChosenOpMode() {}
+    public native String getChosenOpMode();
+
+
+
+
+
+
 }
