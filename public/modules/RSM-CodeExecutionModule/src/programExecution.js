@@ -521,38 +521,38 @@ async function runProgram(code) { 	// the parameter code is not used anymore. we
 		return localStorage.getItem("playMode");
 	}
 	
-	async function Java_HardwareMap_runJSCode(lib,  str) {
-		Java_JSRobotDemo_runJSCode(lib, str)
-	}
+	// async function Java_HardwareMap_runJSCode(lib,  str) {
+	// 	Java_JSRobotDemo_runJSCode(lib, str)
+	// }
 
-	async function Java_JSRobotDemo_runJSCode(lib, str) {
-		let AsyncFunctionCtor2 = Object.getPrototypeOf(async function () { }).constructor;
-		let program2;
-		try {
-			program2 = new AsyncFunctionCtor2(str);
-		}
-		catch (e) {
-			throw e;
-		}
-		try {
-			await program2();
-		} catch (e) {
-			console.log("JS runtime error : ", e);
-			localStorage.setItem('stopMatch', true);
-			document.getElementById("telemetryText").innerText = "<Emergency stop!>\n" + e;
-			resetProgramExecution();
-			throw e;
-		}
-	}
+	// async function Java_JSRobotDemo_runJSCode(lib, str) {
+	// 	let AsyncFunctionCtor2 = Object.getPrototypeOf(async function () { }).constructor;
+	// 	let program2;
+	// 	try {
+	// 		program2 = new AsyncFunctionCtor2(str);
+	// 	}
+	// 	catch (e) {
+	// 		throw e;
+	// 	}
+	// 	try {
+	// 		await program2();
+	// 	} catch (e) {
+	// 		console.log("JS runtime error : ", e);
+	// 		localStorage.setItem('stopMatch', true);
+	// 		document.getElementById("telemetryText").innerText = "<Emergency stop!>\n" + e;
+	// 		resetProgramExecution();
+	// 		throw e;
+	// 	}
+	// }
 
 	
 
-	async function Java_DcMotor_setPower(lib, self, pow) {
+	async function Java_vrs_library_DcMotor_setPower(lib, self, pow) {
 		motor.setProperty([self.index], 'Power', [pow]);
 
 	}
 
-	async function Java_DcMotor_setDir(lib, self, dir) {
+	async function Java_vrs_library_DcMotor_setDir(lib, self, dir) {
 		console.log(typeof dir);
 		console.log(self.index);
 		motor.setProperty([self.index], "Direction", [dir]);
@@ -565,18 +565,26 @@ async function runProgram(code) { 	// the parameter code is not used anymore. we
 		console.log(str)
 	}
 
-	async function Java_HardwareMap_getJSON(lib, self) {
+	async function Java_vrs_library_HardwareMap_getJSON(lib, self) {
 		const jsonText = await fetch('config_files/defaultRobot.json').then(r => r.text());
 		return jsonText;
 	}
 
-	async function Java_DcMotor_getCurrentPosition(lib, self) {
+	async function Java_vrs_library_DcMotor_getCurrentPosition(lib, self) {
 		return motor.getProperty([self.index], "CurrentPosition");
 		// return 0; // placeholder value
 	}
 
-	async function Java_OpModeBase_waitForStart(lib, self) {
+	async function Java_vrs_library_LinearOpMode_waitForStart(lib, self) {
 		await linearOpMode.waitForStart();
+	}
+
+	async function Java_vrs_library_OpModeManager_ReadyToStart(lib, self) {
+		return localStorage.getItem('startMatch');
+	}
+
+	async function Java_vrs_library_OpModeManager_opModeIsActive(lib, self) {
+		return !localStorage.getItem('');
 	}
 
 	// if cheerpj is not initialized, initializes it
@@ -584,14 +592,16 @@ async function runProgram(code) { 	// the parameter code is not used anymore. we
 		window.cheerpjInitPromise = cheerpjInit({
 			version: 17,
 			natives: {
-				Java_JSRobotDemo_runJSCode,
-				Java_DcMotor_getCurrentPosition,
-				Java_DcMotor_setPower,
-				Java_DcMotor_setDir,
-				Java_OpModeBase_waitForStart,
-				Java_HardwareMap_runJSCode,
-				Java_HardwareMap_print,
-				Java_HardwareMap_getJSON
+				//Java_JSRobotDemo_runJSCode,
+				Java_vrs_library_DcMotor_getCurrentPosition,
+				Java_vrs_library_DcMotor_setPower,
+				Java_vrs_library_DcMotor_setDir,
+				Java_vrs_library_LinearOpMode_waitForStart,
+				//Java_HardwareMap_runJSCode,
+				//Java_vrs_library_HardwareMap_print,
+				Java_vrs_library_HardwareMap_getJSON,
+				Java_vrs_library_OpModeManager_ReadyToStart,
+				Java_vrs_library_OpModeManager_opModeIsActive
 		//   Java_Example_nativeSetApplication,
 			},
 			enableDebug: true
@@ -608,7 +618,7 @@ async function runProgram(code) { 	// the parameter code is not used anymore. we
 	// execution
 	try {
 		console.time('runJar time');
-		await cheerpjRunJar("/app/JSRobotDemo.jar");
+		await cheerpjRunJar("/app/Demo.jar");
 		console.timeEnd('runJar time');
 	} catch (err) {
 		// anything other than abortedMsg is an actual error
